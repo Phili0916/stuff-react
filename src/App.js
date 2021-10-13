@@ -1,13 +1,27 @@
+import React from 'react'
+
 import './styles/login.scss'
+import './styles/App.scss'
 import Login from "./component/login";
 
 
-function App() {
-  return (
-    <div className="App">
-      <Login />
-    </div>
-  );
+export default class App extends React.Component{
+
+
+
+  _changeUser(user){
+    console.log(user)
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <Login
+        onAuthenticationSuccess={(user)=>this._changeUser(user)}/>
+      </div>
+    );
+  }
+
 }
 
-export default App;
+
