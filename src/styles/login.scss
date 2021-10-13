@@ -1,0 +1,19 @@
+@import "constants";
+
+.login{
+  border:1px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+}
+
+.login__username{
+  min-height: 10vh;
+  .login__username__input{
+    color:$my_blue;
+  }
+}
+
+.login__password {
+  min-height: 25vh;
+}

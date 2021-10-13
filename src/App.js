@@ -1,9 +1,12 @@
-import './App.css';
+import './styles/App.css';
+import './styles/login.scss'
+import Login from "./component/login";
+
 
 function App() {
   return (
     <div className="App">
-      <p>toto</p>
+      <Login />
     </div>
   );
 }
