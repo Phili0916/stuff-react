@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default class Login extends React.Component {
 
   constructor(props){
@@ -30,21 +31,26 @@ this.handleChange = this.handleChange.bind(this)
     // TODO 1 : style
     return (
         <div className={"login"}>
+          <h1>React Form</h1>
           <form className={"login__username"} onSubmit={this._submit}>
-            <input className={"login__username__input"}
-              type="text"
-                   name="username"
-                   value={this.state.username}
-                   placeholder="User Name"
-                   onChange={this.handleChange}
-            />
-            <input className={"login__username__input"}
-              type={"text"}
-                   name="password"
-                   value={this.state.password}
-                   placeholder="Enter Password"
-                   onChange={this.handleChange}
-            />
+            <label>
+              <input className={"login__username__input"}
+                     type="text"
+                     name="username"
+                     value={this.state.username}
+                     placeholder="User Name"
+                     onChange={this.handleChange}
+              />
+            </label>
+            <label>
+              <input className={"login__username__input"}
+                     type={"text"}
+                     name="password"
+                     value={this.state.password}
+                     placeholder="Enter Password"
+                     onChange={this.handleChange}
+              />
+            </label>
             <button>Submit</button>
           </form>
             {/*TODO 2 : when you change the input, the state is updated*/}

@@ -1,4 +1,3 @@
-import './styles/App.css';
 import './styles/login.scss'
 import Login from "./component/login";
 
