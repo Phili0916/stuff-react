@@ -43,3 +43,7 @@ label {
 .login__password {
   min-height: 25vh;
 }
+
+.login__errorForm{
+  color:$error_red;
+}
