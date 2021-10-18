@@ -22,7 +22,7 @@ export default class Login extends React.Component {
   }
   async _submit(event) {
     event.preventDefault()
-    // alert('Form was submitted')
+    //alert('Form was submitted')
 
     const data = await UserApiClient.checkIfUsernameAndPasswordAreOK(this.state.username, this.state.password)
 

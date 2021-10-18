@@ -40,6 +40,10 @@ export default class App extends React.Component {
   //   }
   }
 
+  greet() {
+    console.log("Hello")
+  }
+
 
   render() {
     console.log('this.state.userId')
@@ -54,7 +58,11 @@ export default class App extends React.Component {
                 </div>)
               : (
 
-                  <Home />
+                  <Home
+                      greet={this.greet}
+                      user={this.state.user}
+                      changeUser={this._changeUser.bind(this)}
+                  />
               )
           }
         </>
