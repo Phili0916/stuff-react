@@ -36,7 +36,7 @@ export default class Login extends React.Component {
         this.setState({badUser: false})
         console.log(this)
         // TODO : get the user by its id
-          const user = await UserApiClient.getUser(data.userId, data.token)
+          const {user} = await UserApiClient.getUser(data.userId, data.token)
         console.log('#####USER', user)
           console.log("###data.userId")
         console.log(data.token);
