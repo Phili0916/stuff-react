@@ -1,9 +1,16 @@
 import React from 'react'
-
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from "react-router-dom";
 import './styles/login.scss'
 import './styles/App.scss'
 import Login from "./component/login";
 import Home from "./component/Home";
+import ListStuff from "./component/list.stuff";
+import User from "./component/user";
+import Navbar from "./component/block/navbar";
 
 
 export default class App extends React.Component {
@@ -23,7 +30,7 @@ export default class App extends React.Component {
     }
   }
 
-  async _logout(){
+  async _logout() {
     localStorage.removeItem('user')
     localStorage.removeItem('jwt')
     await this.setState({user: undefined})
@@ -51,12 +58,22 @@ export default class App extends React.Component {
         <>
           {this.state.user !== undefined
               ? (
-                  <Home
-                      greet={this.greet}
-                      user={this.state.user}
-                      onLogout={()=>this._logout()}
-                      // onLogout={()=>console.log('ko')}
-                  />
+                  <BrowserRouter>
+                    <Switch>
+                      <Route exact path="/" component={() => <Home
+                          greet={this.greet}
+                          user={this.state.user}
+                          onLogout={() => this._logout()}
+
+                      />}/>
+                      <Route path="/stuff" component={() => <ListStuff/>}/>
+                      <Route path="/user" exact={true} component={() => <User/>}/>
+
+                    </Switch>
+                    <Navbar
+                        source={this.props?.history}
+                    />
+                  </BrowserRouter>
               )
               :
               (<div className="App">
