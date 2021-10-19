@@ -5,8 +5,9 @@ export default class Home extends React.Component {
     super(props)
   }
 
-  _doSomething(){
-
+  _logout(e){
+    e.preventDefault()
+    this.props.onLogout()
   }
 
   render() {
@@ -18,10 +19,9 @@ export default class Home extends React.Component {
           )}
 
           <p>{this.props.greet}</p>
-          <button
-          className=""
-          onClick={()=>this._doSomething()}
-          ></button>
+          <button onClick={(event)=>this._logout(event)}>
+            Logout
+          </button>
         </div>
     )
   }

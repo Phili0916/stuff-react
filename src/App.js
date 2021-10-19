@@ -15,24 +15,29 @@ export default class App extends React.Component {
     }
   }
 
-  async _changeUser(userId, jwt, user) {
+  async _login(userId, jwt, user) {
     localStorage.setItem("user", JSON.stringify(user))
     localStorage.setItem("jwt", JSON.stringify(jwt))
-    if (userId) {
-      await this.setState({user : user})
+    if (user) {
+      await this.setState({user: user})
     }
+  }
 
+  async _logout(){
+    localStorage.removeItem('user')
+    localStorage.removeItem('jwt')
+    await this.setState({user: undefined})
   }
 
   async componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user'))
 
-    if(user) {
+    if (user) {
       await this.setState({user: user})
     }
 
-    if(JSON.parse(localStorage.getItem('user'))) {
-      await this.setState({user : user})
+    if (JSON.parse(localStorage.getItem('user'))) {
+      await this.setState({user: user})
     }
   }
 
@@ -44,23 +49,25 @@ export default class App extends React.Component {
   render() {
     return (
         <>
-          {!this.state.user
-              ? (<div className="App">
-                  <Login
-                      onAuthenticationSuccess={async (userId, jwt, user) => await this._changeUser(userId, jwt, user)}/>
-                </div>)
-              : (
-
+          {this.state.user !== undefined
+              ? (
                   <Home
                       greet={this.greet}
                       user={this.state.user}
+                      onLogout={()=>this._logout()}
+                      // onLogout={()=>console.log('ko')}
                   />
               )
+              :
+              (<div className="App">
+                <Login
+                    onAuthenticationSuccess={async (userId, jwt, user) => await this._login(userId, jwt, user)}/>
+              </div>)
+
           }
         </>
     )
   }
-
 }
 
 
