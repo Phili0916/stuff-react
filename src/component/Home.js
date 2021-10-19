@@ -5,12 +5,23 @@ export default class Home extends React.Component {
     super(props)
   }
 
+  _doSomething(){
+
+  }
+
   render() {
     return (
         <div>
           <h1>Here is your stuff</h1>
-          <h1>{this.props.user?.firstName}</h1>
+          {this.props.user && (
+              <h1>{this.props.user.firstName} {this.props.user.lastName}</h1>
+          )}
+
           <p>{this.props.greet}</p>
+          <button
+          className=""
+          onClick={()=>this._doSomething()}
+          ></button>
         </div>
     )
   }
