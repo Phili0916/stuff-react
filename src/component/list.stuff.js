@@ -1,4 +1,5 @@
 import React from 'react'
+import StuffApiClient from "../service/stuff.api.client";
 
 export default class ListStuff extends React.Component {
 
@@ -10,9 +11,17 @@ export default class ListStuff extends React.Component {
   }
 
 
-  componentDidMount() {
+  async componentDidMount() {
     //TODO : get all stuff from your database
-
+    const allStuff = StuffApiClient.getAllStuff(this.state.allStuff)
+    console.log("###allStuff");
+    console.log(allStuff)
+    if(allStuff) {
+      await this.setState({'allStuff': allStuff})
+    }
+    if(JSON.parse(localStorage.getItem('allStuff'))) {
+      await this.setState({allStuff: allStuff})
+    }
   }
 
   render() {
