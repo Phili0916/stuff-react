@@ -1,0 +1,49 @@
+@import "constants";
+
+
+button {
+  padding: 10px;
+  margin: auto;
+  text-transform: uppercase;
+}
+.login {
+  border:1px solid black;
+  background-color: azure;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0vw;
+  padding: 5vw;
+  width: 50vw;
+  position: relative;
+  text-align: center;
+}
+label {
+  margin-bottom: 5vh;
+  display: flex;
+  align-content: stretch;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+.login__username{
+  min-height: 10vh;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  .login__username__input{
+    color:$my_blue;
+    padding: 10px;
+  }
+}
+
+.login__password {
+  min-height: 25vh;
+}
+
+.login__errorForm{
+  color:$error_red;
+}
