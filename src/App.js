@@ -6,6 +6,9 @@ import {
 } from "react-router-dom";
 import './styles/login.scss'
 import './styles/App.scss'
+import './styles/navbar.scss'
+import './styles/home.scss'
+
 import Login from "./component/login";
 import Home from "./component/Home";
 import ListStuff from "./component/list.stuff";
@@ -59,6 +62,9 @@ export default class App extends React.Component {
           {this.state.user !== undefined
               ? (
                   <BrowserRouter>
+                    <Navbar
+                        source={this.props?.history}
+                    />
                     <Switch>
                       <Route exact path="/" component={() => <Home
                           greet={this.greet}
@@ -70,9 +76,6 @@ export default class App extends React.Component {
                       <Route path="/user" exact={true} component={() => <User/>}/>
 
                     </Switch>
-                    <Navbar
-                        source={this.props?.history}
-                    />
                   </BrowserRouter>
               )
               :

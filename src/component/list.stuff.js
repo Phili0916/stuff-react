@@ -35,7 +35,7 @@ export default class ListStuff extends React.Component {
             :(<div>
               {this.state.allStuff.stuff.map(stuff => (
                     <ul>
-                      <li>{stuff.title}</li>
+                      <li>{stuff.description}</li>
                     </ul>
                     ))
               }
