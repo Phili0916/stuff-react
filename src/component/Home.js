@@ -11,7 +11,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
         <div>
           <h1>Here is your stuff</h1>

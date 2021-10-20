@@ -6,14 +6,13 @@ export default class ListStuff extends React.Component {
   constructor(props) {
     super(props);
     this.state={
-      allStuff :undefined
+      allStuff : undefined
     }
   }
 
-
   async componentDidMount() {
     //TODO : get all stuff from your database
-    const allStuff = StuffApiClient.getAllStuff(this.state.allStuff)
+    const allStuff = await StuffApiClient.getAllStuff(JSON.parse(localStorage.getItem('jwt')))
     console.log("###allStuff");
     console.log(allStuff)
     if(allStuff) {
@@ -25,15 +24,21 @@ export default class ListStuff extends React.Component {
   }
 
   render() {
-
+    console.log("###this.state.allStuff");
+    console.log(this.state.allStuff)
     return (
-        this.state.allStuff=== undefined
+        this.state.allStuff === undefined
             ? (<div>
+
                 <p>No stuff found</p>
               </div>)
             :(<div>
-          OK
-          {/* TODO Display your stuff*/}
+              {this.state.allStuff.stuff.map(stuff => (
+                    <ul>
+                      <li>{stuff.title}</li>
+                    </ul>
+                    ))
+              }
             </div>)
 
     )
