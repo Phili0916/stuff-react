@@ -28,17 +28,35 @@ export default class ListStuff extends React.Component {
     console.log(this.state.allStuff)
     return (
         this.state.allStuff === undefined
-            ? (<div>
+            ? (<div className={"stuff_home"}>
 
                 <p>No stuff found</p>
               </div>)
-            :(<div>
-              {this.state.allStuff.stuff.map(stuff => (
-                    <ul>
-                      <li>{stuff.description}</li>
-                    </ul>
-                    ))
-              }
+            :(<div className={'stuff_home'}>
+                <main className={'stuff_main'}>
+                  <table>
+                    <tr>
+                      <th>Title</th>
+                      <th>type</th>
+                      <th>Description</th>
+                      <th>Price</th>
+                    </tr>
+                  </table>
+
+                  {this.state.allStuff.stuff.map(stuff => (
+
+                      <table>
+                        <tr>
+                          <td>{stuff.title}</td>
+                          <td>{stuff.type}</td>
+                          <td>{stuff.description}</td>
+                          <td>{stuff.price}</td>
+                        </tr>
+                      </table>
+                  ))
+                  }
+                </main>
+
             </div>)
 
     )

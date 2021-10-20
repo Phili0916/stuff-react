@@ -8,6 +8,7 @@ import './styles/login.scss'
 import './styles/App.scss'
 import './styles/navbar.scss'
 import './styles/home.scss'
+import './styles/listStuff.scss'
 
 import Login from "./component/login";
 import Home from "./component/Home";
