@@ -25,8 +25,8 @@ export default class ListStuff extends React.Component {
   }
 
   render() {
-    console.log("###this.state.allStuff");
-    console.log(this.state.allStuff)
+    // console.log("###this.state.allStuff");
+    // console.log(this.state.allStuff)
     return (
         this.state.allStuff === undefined
             ? (<div className={"stuff_home"}>

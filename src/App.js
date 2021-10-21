@@ -10,6 +10,7 @@ import './styles/navbar.scss'
 import './styles/home.scss'
 import './styles/listStuff.scss'
 import './styles/cardStuff.scss'
+import './styles/searchPage.scss'
 
 import Login from "./component/login";
 import Home from "./component/Home";
@@ -17,6 +18,7 @@ import ListStuff from "./component/list.stuff";
 import User from "./component/user";
 import Navbar from "./component/block/navbar";
 import SearchPage from "./component/searchPage";
+import CardStuff from "./component/card.stuff";
 
 
 export default class App extends React.Component {
@@ -81,6 +83,7 @@ export default class App extends React.Component {
 
                     </Switch>
                   </BrowserRouter>
+
               )
               :
               (<div className="App">

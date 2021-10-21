@@ -26,20 +26,20 @@ export default class Login extends React.Component {
 
     const data = await UserApiClient.checkIfUsernameAndPasswordAreOK(this.state.username, this.state.password)
 
-    console.log("###data")
-    console.log(data);
+    // console.log("###data")
+    // console.log(data);
 
 
     switch (data.message) {
       case 'ok':
         this.setState({badPassword: false})
         this.setState({badUser: false})
-        console.log(this)
+        // console.log(this)
         // TODO : get the user by its id
           const {user} = await UserApiClient.getUser(data.userId, data.token)
-        console.log('#####USER', user)
-          console.log("###data.userId")
-        console.log(data.token);
+        // console.log('#####USER', user)
+        //   console.log("###data.userId")
+        // console.log(data.token);
 
 
         this.props.onAuthenticationSuccess(data.userId, data.token, user)

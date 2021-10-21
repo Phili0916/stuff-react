@@ -25,7 +25,7 @@ class StuffApiClient {
   }
 }
 
-//window.location.origin
+// window.location.origin
 
 export default StuffApiClient
 

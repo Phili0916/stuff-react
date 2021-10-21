@@ -14,13 +14,13 @@ export default class CardStuff extends React.Component {
     switch (parseInt(this.props.stuff.category)) {
       case 1 :
         this.setState({category: 'Computer Mouse'})
-        console.log("##thisCard");
-        console.log(this)
+        // console.log("##thisCard");
+        // console.log(this)
         break
       case 0 :
         this.setState({category: 'MISCELLANEOUS'})
-        console.log("##thisCard");
-        console.log(this)
+        // console.log("##thisCard");
+        // console.log(this)
         break
       default :
         return
