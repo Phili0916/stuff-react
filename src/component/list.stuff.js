@@ -1,5 +1,6 @@
 import React from 'react'
 import StuffApiClient from "../service/stuff.api.client";
+import CardStuff from "./card.stuff";
 
 export default class ListStuff extends React.Component {
 
@@ -34,25 +35,11 @@ export default class ListStuff extends React.Component {
               </div>)
             :(<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
-                  <table>
-                    <tr>
-                      <th>Title</th>
-                      <th>type</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                    </tr>
-                  </table>
 
                   {this.state.allStuff.stuff.map(stuff => (
 
-                      <table>
-                        <tr>
-                          <td>{stuff.title}</td>
-                          <td>{stuff.type}</td>
-                          <td>{stuff.description}</td>
-                          <td>{stuff.price}</td>
-                        </tr>
-                      </table>
+                      <CardStuff
+                      stuff={stuff} />
                   ))
                   }
                 </main>

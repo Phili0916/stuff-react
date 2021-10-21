@@ -9,9 +9,29 @@
   display: flex;
   max-width: 800px;
   height: 100vh;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
+
   margin: 0 auto;
+  flex-basis: 100%;
+
 }
 
+
+
+
+
+
+//.stuff_table thead tr {
+//  text-align: left;
+//  margin: 25px 0;
+//}
+//
+//.stuff_table th {
+//  padding: 12px 15px
+//}
+//
+//.stuff_table td {
+//    padding: 12px 15px
+//  }

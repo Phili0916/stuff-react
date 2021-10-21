@@ -1,0 +1,31 @@
+.card__stuff {
+  display: flex;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 0.8em;
+  margin: 20px 20px;
+  padding: 5px 20px;
+  width: 200vw;
+  height: 50vh;
+  flex-direction: column;
+
+  .card__stuff__title {
+    font-size: 1em;
+    margin-bottom: 2em;
+    .card__stuff__title__label{
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+  }
+
+  //p {
+  //  margin-top: 5px;
+  //  margin-bottom: 5px;
+  //  padding-top: 5px;
+  //  padding-bottom: 5px;
+  //  font-size: 1.7em;
+  //  font-weight: lighter;
+  //}
+}
+

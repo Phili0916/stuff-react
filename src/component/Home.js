@@ -6,10 +6,6 @@ export default class Home extends React.Component {
     super(props)
   }
 
-  _logout(e){
-    e.preventDefault()
-    this.props.onLogout()
-  }
 
   render() {
     return (
@@ -24,11 +20,6 @@ export default class Home extends React.Component {
             )}
 
             <p>{this.props.greet}</p>
-            <div className={"home_buttons"}>
-              <button className={"home_logout_button"} onClick={(event)=>this._logout(event)}>
-                Logout
-              </button>
-            </div>
           </main>
         </div>
     )

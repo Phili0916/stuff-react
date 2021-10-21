@@ -19,17 +19,17 @@ class UserApiClient {
       })
     })
 
-    const data = await response.json()
-    if (!data.userId) {
-      console.log(data.message)
-      return data
+    const userdata = await response.json()
+    if (!userdata.userId) {
+      console.log(userdata.message)
+      return userdata
     } else {
       console.log('found data.userId')
-      window.jwt = data.token
-      data.message ='ok'
+      window.jwt = userdata.token
+      userdata.message ='ok'
       console.log("###data");
-      console.log(data)
-      return data
+      console.log(userdata)
+      return userdata
     }
 
   }
@@ -42,8 +42,10 @@ class UserApiClient {
         'authorization': token
       },
     })
+     console.log("###responseUser")
+     console.log(response);
 
-    if(!response.ok){
+     if(!response.ok){
       throw await response.json()
     }
     return await response.json()

@@ -9,12 +9,14 @@ import './styles/App.scss'
 import './styles/navbar.scss'
 import './styles/home.scss'
 import './styles/listStuff.scss'
+import './styles/cardStuff.scss'
 
 import Login from "./component/login";
 import Home from "./component/Home";
 import ListStuff from "./component/list.stuff";
 import User from "./component/user";
 import Navbar from "./component/block/navbar";
+import SearchPage from "./component/searchPage";
 
 
 export default class App extends React.Component {
@@ -65,14 +67,15 @@ export default class App extends React.Component {
                   <BrowserRouter>
                     <Navbar
                         source={this.props?.history}
+                        onLogout={() => this._logout()}
                     />
+
                     <Switch>
                       <Route exact path="/" component={() => <Home
                           greet={this.greet}
                           user={this.state.user}
-                          onLogout={() => this._logout()}
-
                       />}/>
+
                       <Route path="/stuff" component={() => <ListStuff/>}/>
                       <Route path="/user" exact={true} component={() => <User/>}/>
 
