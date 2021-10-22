@@ -35,7 +35,7 @@ export default class CardStuff extends React.Component {
           </div>
 
           <div className={"card__stuff__title"}>
-            Category : <span className={"card__stuff__title__label"}>{this.props.stuff.category}</span>
+            Category : <span className={"card__stuff__title__label"}>{this.state.category}</span>
           </div>
 
           <div className={"card__stuff__title"}>
