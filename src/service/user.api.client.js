@@ -27,8 +27,8 @@ class UserApiClient {
       console.log('found data.userId')
       window.jwt = userdata.token
       userdata.message ='ok'
-      console.log("###data");
-      console.log(userdata)
+      // console.log("###typeof data");
+      // console.log(typeof 'userdata')
       return userdata
     }
 
@@ -42,8 +42,8 @@ class UserApiClient {
         'authorization': token
       },
     })
-     console.log("###responseUser")
-     console.log(response);
+     // console.log("###responseUser")
+     // console.log(typeof 'response');
 
      if(!response.ok){
       throw await response.json()

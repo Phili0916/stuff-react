@@ -12,8 +12,8 @@ class StuffApiClient {
         'authorization': jwt
       }
     })
-    // console.log("####response in stuff request")
-    // console.log(response)
+    console.log("####response in stuff request")
+    console.log(response)
     // const something = await response.json()
     // console.log("###something");
     // console.log(something)
@@ -27,14 +27,14 @@ class StuffApiClient {
   /**
    *
    * @param {string} jwt
-   * @param {string} title
+   * @param {object} object
    * @returns {Promise<void>}
    */
-  static async getStuffBy(jwt, title) {
+  static async getStuffBy(jwt, object) {
     console.log(jwt)
     console.log(title)
 
-    const response = await fetch('http://localhost:9090/stuff/criterion/?title=' + title, {
+    const response = await fetch('http://localhost:9090/stuff/criterion/' + title, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -46,6 +46,7 @@ class StuffApiClient {
     if (!response.ok) {
       throw await response.json()
     }
+    // console.log(response.json)
     return await response.json()
   }
 }

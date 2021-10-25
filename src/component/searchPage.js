@@ -1,38 +1,75 @@
 import React from 'react'
 import StuffApiClient from "../service/stuff.api.client";
+import CardStuff from "./card.stuff";
 
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      search: '',
+      titleSearch: '',
+      citySearch: '',
+      allStuff: undefined
     }
 
   }
 
+  // async componentDidMount() {
+    // await this._submitSearch()
+  // }
+
+  async _submitSearch() {
+    const obj = {}
+    // check if a title is setted
+    // modify obj (add params : obj.title = this.state.titleSearch
+
+    // check if .... city this.State.citySearch === ''
+
+    // check if .... category
+
+    // check if zipcode
+
+
+    const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), obj )
+console.log('results.stuff.stuff')
+console.log(results.stuff.stuff)
+    // console.log("Phil", results[Object.keys(results)[1]][0].title)
+    // console.log("Phil", results.stuff[0].title)
+
+    console.log("Phil2", results)
+    console.log("Phil3", Array.of(results))
+    console.log("search", this.state.titleSearch)
+    if (results.stuff.stuff.length >= 1) {
+      await this.setState({allStuff: results.stuff.stuff})
+    } else {
+      await this.setState({allStuff: undefined})
+    }
+
+
+    // return results.stuff
+
+    // let filterTitles = Array.of(results).filter(result => {
+    //   //
+    //   console.log('result.stuff', result.stuff[0].title)
+    //   return result.stuff[0].title.toLowerCase().indexOf(this.state.search?.toLowerCase()) !== -1
+    // })
+  }
+
   searchChange(event) {
-    const search = event.target.value
-        this.setState({search : search})
-    console.log("###search");
-    console.log(search)
+    const title = event.target.value
+    this.setState({titleSearch: title})
+    console.log("###title");
+    console.log(title)
   }
 
   async _submit(event) {
     event.preventDefault()
-    const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), this.state.search)
-    console.log(results)
-  }
-
-  filteredTitles() {
-    let filterTitles = results.filter((item) => {
-      console.log(filterTitles)
-      console.log(filterTitles)
-      return item.title.toLowerCase().includes(this.state.search.toLowerCase())
-    })
+    await this._submitSearch()
   }
 
   render() {
-    const { search } = this.state
+    console.log('this.state.allStuff')
+    console.log(this.state.allStuff)
+    const {titleSearch, citySearch} = this.state
 
     return (
         <div className={"search__Page"}>
@@ -41,18 +78,43 @@ export default class SearchPage extends React.Component {
                 className={"search__Form__input"}
                 type="text"
                 placeholder={"search by title"}
-                value={search}
+                value={titleSearch}
                 onChange={(event) => this.searchChange(event)}
             />
+
+            <input
+                className={"search__Form__input"}
+                type="text"
+                placeholder={"search by city"}
+                value={citySearch}
+                onChange={(event) => this.otherMethod(event)}
+            />
+
+            {/*SEARCH BUTTON*/}
             <button className={"search__Form__button"}
                     onClick={(event) =>
                         this._submit(event)}>Search
             </button>
           </form>
-          <div>
-            <ul onChange={()=>this.filteredTitles()}>
-            </ul>
-          </div>
+
+
+          {this.state.allStuff === undefined
+              ? (<div className={"stuff_home"}>
+
+                <p>No stuff found</p>
+              </div>)
+              : (<div className={'stuff_home'}>
+                <main className={'stuff_main'}>
+
+                  {this.state.allStuff.map(stuff => (
+
+                      <CardStuff
+                          stuff={stuff}/>
+                  ))
+                  }
+                </main>
+
+              </div>)}
         </div>
     )
   }

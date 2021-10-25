@@ -13,8 +13,8 @@ export default class User extends React.Component {
     //TODO : get user from your database
     const user= JSON.parse(localStorage.getItem('user'))
     const userdata = await UserApiClient.getUser(user._id, JSON.parse(localStorage.getItem('jwt')))
-    console.log("###userdata");
-    console.log(userdata);
+    console.log("###typeof userdata");
+    console.log(typeof 'userdata');
   }
   render() {
     return (
