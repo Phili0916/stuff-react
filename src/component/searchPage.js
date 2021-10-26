@@ -64,12 +64,17 @@ export default class SearchPage extends React.Component {
   }
 
   searchTitleChange(event) {
-    const title = event.target.value
-    this.setState({titleSearch: title})
-    console.log("###title");
-    console.log(title)
+      switch(event) {
+        case 'title':
+          const title = event.target.value
+            this.setState({titleSearch: title})
 
-  }
+            console.log("###title");
+            console.log(title)
+          break
+        }
+    }
+
 
   searchCityChange(event) {
     const city = event.target.value
