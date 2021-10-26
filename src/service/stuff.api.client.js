@@ -31,10 +31,21 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, object) {
-    console.log(jwt)
-    console.log(title)
+    console.log('object', object)
 
-    const response = await fetch('http://localhost:9090/stuff/criterion/' + title, {
+    let url = new URL('http://localhost:9090/stuff/criterion/')
+
+    for(const [key, value] of Object.entries(object)){
+      console.log('!!! key value', object)
+      url.searchParams.append('title', '' )
+      url.searchParams.append('city', '')
+      url.searchParams.append('category', '')
+      console.log('key value of searchParams', key, value)
+    }
+
+
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

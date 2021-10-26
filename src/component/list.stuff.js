@@ -25,8 +25,8 @@ export default class ListStuff extends React.Component {
   }
 
   render() {
-    // console.log("###this.state.allStuff");
-    // console.log(this.state.allStuff)
+    console.log("###this.state.allStuff");
+    console.log(typeof this.state.allStuff)
     return (
         this.state.allStuff === undefined
             ? (<div className={"stuff_home"}>
@@ -36,7 +36,7 @@ export default class ListStuff extends React.Component {
             :(<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
 
-                  {this.state.allStuff.stuff.map(stuff => (
+                  {Object.entries(this.state.allStuff).map(stuff => (
 
                       <CardStuff
                       stuff={stuff} />

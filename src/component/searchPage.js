@@ -8,9 +8,9 @@ export default class SearchPage extends React.Component {
     this.state = {
       titleSearch: '',
       citySearch: '',
+      categorySearch: '',
       allStuff: undefined
     }
-
   }
 
   // async componentDidMount() {
@@ -19,7 +19,16 @@ export default class SearchPage extends React.Component {
 
   async _submitSearch() {
     const obj = {}
-    // check if a title is setted
+    // check if a title is set
+    if(this.state.titleSearch !==''){
+      obj.title = this.state.titleSearch
+    }
+    if(this.state.citySearch !== ''){
+      obj.city = this.state.citySearch
+    }
+    if(this.state.categorySearch !== '') {
+      obj.category = this.state.categorySearch
+    }
     // modify obj (add params : obj.title = this.state.titleSearch
 
     // check if .... city this.State.citySearch === ''
@@ -30,14 +39,14 @@ export default class SearchPage extends React.Component {
 
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), obj )
-console.log('results.stuff.stuff')
-console.log(results.stuff.stuff)
-    // console.log("Phil", results[Object.keys(results)[1]][0].title)
-    // console.log("Phil", results.stuff[0].title)
-
-    console.log("Phil2", results)
-    console.log("Phil3", Array.of(results))
-    console.log("search", this.state.titleSearch)
+    // console.log('results')
+    // console.log(results)
+    // console.log("Phil", results.stuff.stuff[0]?.title)
+    //
+    //
+    // console.log("Phil2", results)
+    // console.log("Phil3", Array.of(results))
+    // console.log("search", this.state.titleSearch)
     if (results.stuff.stuff.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
@@ -54,11 +63,24 @@ console.log(results.stuff.stuff)
     // })
   }
 
-  searchChange(event) {
+  searchTitleChange(event) {
     const title = event.target.value
     this.setState({titleSearch: title})
     console.log("###title");
     console.log(title)
+
+  }
+
+  searchCityChange(event) {
+    const city = event.target.value
+    this.setState({citySearch: city})
+    console.log('citySearch', city)
+  }
+
+  searchCategoryChange(event) {
+    const category = event.target.value
+    this.setState({categorySearch: category})
+    console.log('categorySearch', category)
   }
 
   async _submit(event) {
@@ -69,7 +91,7 @@ console.log(results.stuff.stuff)
   render() {
     console.log('this.state.allStuff')
     console.log(this.state.allStuff)
-    const {titleSearch, citySearch} = this.state
+    const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
         <div className={"search__Page"}>
@@ -79,7 +101,7 @@ console.log(results.stuff.stuff)
                 type="text"
                 placeholder={"search by title"}
                 value={titleSearch}
-                onChange={(event) => this.searchChange(event)}
+                onChange={(event) => this.searchTitleChange(event)}
             />
 
             <input
@@ -87,14 +109,22 @@ console.log(results.stuff.stuff)
                 type="text"
                 placeholder={"search by city"}
                 value={citySearch}
-                onChange={(event) => this.otherMethod(event)}
+                onChange={(event) => this.searchCityChange(event)}
             />
 
+            <input
+                className={"search__Form__input"}
+                type="text"
+                placeholder={"search by category"}
+                value={categorySearch}
+                onChange={(event) => this.searchCategoryChange(event)}
+            />
             {/*SEARCH BUTTON*/}
             <button className={"search__Form__button"}
-                    onClick={(event) =>
-                        this._submit(event)}>Search
+                      onClick={(event) =>
+                          this._submit(event)}>Search
             </button>
+
           </form>
 
 

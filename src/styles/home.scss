@@ -1,6 +1,6 @@
 .home {
   background-color: whitesmoke;
-  height: 100vh;
+  height: 150vh;
   background-size: cover;
   background-position: center;
 }
@@ -9,7 +9,6 @@
   display: flex;
   max-width: 800px;
   height: 100vh;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
@@ -23,5 +22,6 @@
 .main h2 {
   font-size: 30px;
   margin-bottom: 10px;
+  margin-top: 30px;
 }
 
