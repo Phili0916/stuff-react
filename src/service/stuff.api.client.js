@@ -43,8 +43,6 @@ class StuffApiClient {
       console.log('key value of searchParams', key, value)
     }
 
-
-
     const response = await fetch(url, {
       method: 'GET',
       headers: {

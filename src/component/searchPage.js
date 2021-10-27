@@ -29,21 +29,13 @@ export default class SearchPage extends React.Component {
     if(this.state.categorySearch !== '') {
       obj.category = this.state.categorySearch
     }
-    // modify obj (add params : obj.title = this.state.titleSearch
-
-    // check if .... city this.State.citySearch === ''
-
-    // check if .... category
-
-    // check if zipcode
-
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), obj )
     // console.log('results')
     // console.log(results)
     // console.log("Phil", results.stuff.stuff[0]?.title)
     //
-    //
+    console.log("titleProp", this.state)
     // console.log("Phil2", results)
     // console.log("Phil3", Array.of(results))
     // console.log("search", this.state.titleSearch)
@@ -63,30 +55,25 @@ export default class SearchPage extends React.Component {
     // })
   }
 
-  searchTitleChange(event) {
-      switch(event) {
-        case 'title':
-          const title = event.target.value
-            this.setState({titleSearch: title})
-
-            console.log("###title");
-            console.log(title)
-          break
-        }
+  searchChange(event) {
+    const value = event.target.value
+    this.setState({
+      [event.target.name]: value
+    })
     }
 
 
-  searchCityChange(event) {
-    const city = event.target.value
-    this.setState({citySearch: city})
-    console.log('citySearch', city)
-  }
-
-  searchCategoryChange(event) {
-    const category = event.target.value
-    this.setState({categorySearch: category})
-    console.log('categorySearch', category)
-  }
+  // searchCityChange(event) {
+  //   const city = event.target.value
+  //   this.setState({citySearch: city})
+  //   console.log('citySearch', city)
+  // }
+  //
+  // searchCategoryChange(event) {
+  //   const category = event.target.value
+  //   this.setState({categorySearch: category})
+  //   console.log('categorySearch', category)
+  // }
 
   async _submit(event) {
     event.preventDefault()
@@ -96,6 +83,7 @@ export default class SearchPage extends React.Component {
   render() {
     console.log('this.state.allStuff')
     console.log(this.state.allStuff)
+    console.log('titleSearch', this.state.titleSearch)
     const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
@@ -104,25 +92,28 @@ export default class SearchPage extends React.Component {
             <input
                 className={"search__Form__input"}
                 type="text"
+                name="titleSearch"
                 placeholder={"search by title"}
                 value={titleSearch}
-                onChange={(event) => this.searchTitleChange(event)}
+                onChange={(event) => this.searchChange(event)}
             />
 
             <input
                 className={"search__Form__input"}
                 type="text"
+                name="citySearch"
                 placeholder={"search by city"}
                 value={citySearch}
-                onChange={(event) => this.searchCityChange(event)}
+                onChange={(event) => this.searchChange(event)}
             />
 
             <input
                 className={"search__Form__input"}
                 type="text"
+                name="categorySearch"
                 placeholder={"search by category"}
                 value={categorySearch}
-                onChange={(event) => this.searchCategoryChange(event)}
+                onChange={(event) => this.searchChange(event)}
             />
             {/*SEARCH BUTTON*/}
             <button className={"search__Form__button"}
@@ -141,7 +132,16 @@ export default class SearchPage extends React.Component {
               : (<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
 
-                  {this.state.allStuff.map(stuff => (
+                  {this.state.allStuff.filter(value => {
+                      if(this.searchChange === '') {
+                        return value
+                      } else if(this.state.titleSearch.toLowerCase().includes(titleSearch.toLowerCase())
+                              || this.state.citySearch.toLowerCase().includes(citySearch.toLowerCase())
+                              || this.state.categorySearch.toLowerCase().includes(categorySearch.toLowerCase())
+                      ) {
+                        return value
+                      }
+                  }).map(stuff => (
 
                       <CardStuff
                           stuff={stuff}/>

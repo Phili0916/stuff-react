@@ -12,12 +12,12 @@ export default class CardStuff extends React.Component {
 
   componentDidMount() {
     switch (parseInt(this.props.stuff.category)) {
-      case 1 :
+      case 0 :
         this.setState({category: 'Computer Mouse'})
         // console.log("##thisCard");
         // console.log(this)
         break
-      case 0 :
+      case 1 :
         this.setState({category: 'MISCELLANEOUS'})
         // console.log("##thisCard");
         // console.log(this)
@@ -32,6 +32,7 @@ export default class CardStuff extends React.Component {
         <div className={"card__stuff"}>
           <div className={"card__stuff__title"}>
             Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
+
           </div>
 
           <div className={"card__stuff__title"}>
@@ -44,6 +45,10 @@ export default class CardStuff extends React.Component {
 
           <div className={"card__stuff__title"}>
             Price : <span className={"card__stuff__title__label"}>{this.props.stuff.price}</span>
+          </div>
+
+          <div className={"card__stuff__title"} >
+
           </div>
 
         </div>
