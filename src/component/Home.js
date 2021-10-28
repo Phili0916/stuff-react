@@ -5,6 +5,7 @@ import SearchPage from "./searchPage";
 export default class Home extends React.Component {
   constructor(props) {
     super(props)
+    // console.log('home props', props)
   }
 
 

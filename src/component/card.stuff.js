@@ -5,6 +5,7 @@ export default class CardStuff extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log('props', props)
     this.state = {
       category: 'divers'
     }
@@ -31,7 +32,7 @@ export default class CardStuff extends React.Component {
     return (
         <div className={"card__stuff"}>
           <div className={"card__stuff__title"}>
-            Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
+            Title : <span className={"card__stuff__title__label"}>{this.props.stuff[1].title} {console.log("this.props", this.props.stuff[1].title)}</span>
 
           </div>
 
@@ -40,11 +41,11 @@ export default class CardStuff extends React.Component {
           </div>
 
           <div className={"card__stuff__title"}>
-            Description : <span className={"card__stuff__title__label"}>{this.props.stuff.description}</span>
+            Description : <span className={"card__stuff__title__label"}>{this.props.stuff[1].description}</span>
           </div>
 
           <div className={"card__stuff__title"}>
-            Price : <span className={"card__stuff__title__label"}>{this.props.stuff.price}</span>
+            Price : <span className={"card__stuff__title__label"}>{this.props.stuff[1].price}</span>
           </div>
 
           <div className={"card__stuff__title"} >

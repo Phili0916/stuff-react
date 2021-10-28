@@ -5,6 +5,7 @@ import CardStuff from "./card.stuff";
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props)
+    console.log('searchPage props', props)
     this.state = {
       titleSearch: '',
       citySearch: '',
@@ -81,9 +82,10 @@ export default class SearchPage extends React.Component {
   }
 
   render() {
-    console.log('this.state.allStuff')
-    console.log(this.state.allStuff)
-    console.log('titleSearch', this.state.titleSearch)
+    // console.log('this.state.allStuff')
+    // console.log(this.state.allStuff)
+    // console.log('titleSearch', this.state.titleSearch)
+    // console.log("citySearch", this.state.citySearch)
     const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
@@ -132,20 +134,24 @@ export default class SearchPage extends React.Component {
               : (<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
 
-                  {this.state.allStuff.filter(value => {
+                  {Object.entries(this.state.allStuff).filter(stuff => {
+                    console.log("value", stuff)
                       if(this.searchChange === '') {
-                        return value
+                        return stuff
                       } else if(this.state.titleSearch.toLowerCase().includes(titleSearch.toLowerCase())
                               || this.state.citySearch.toLowerCase().includes(citySearch.toLowerCase())
                               || this.state.categorySearch.toLowerCase().includes(categorySearch.toLowerCase())
                       ) {
-                        return value
+                        return stuff
                       }
                   }).map(stuff => (
-
+                       // console.log("value", value)
                       <CardStuff
-                          stuff={stuff}/>
+                          {...this.setState.allStuff={stuff}}
+                      />
+
                   ))
+
                   }
                 </main>
 
