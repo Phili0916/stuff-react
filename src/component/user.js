@@ -18,8 +18,8 @@ export default class User extends React.Component {
   // }
   render() {
     return (
-        <div className={'userRegistrationForm__container'}>
-          <div className={'userRegistrationForm'}>
+        <div className={'form__container'}>
+          <div className={'form__block'}>
             <h2 className={'userRegistrationForm_title'}>Would you like to Register?</h2>
           </div>
           <form>

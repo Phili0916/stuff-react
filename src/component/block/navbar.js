@@ -25,7 +25,8 @@ export class Navbar extends React.Component {
           </div>
           <ul className={"navLinks"}>
             <li className={"link"} onClick={()=>this._navigate('/')}>Home Page</li>
-            <li className={"link"} onClick={()=>this._navigate('/stuff')}>Stuff Page</li>
+            {/*<li className={"link"} onClick={()=>this._navigate('/stuff')}>Stuff Page</li>*/}
+            <li className={"link"} onClick={()=>this._navigate('/addStuff')}>Add Stuff Page</li>
             <li className={"link"} onClick={()=>this._navigate('/user')}>User Page</li>
           </ul>
           <div className={"home_buttons"} >
