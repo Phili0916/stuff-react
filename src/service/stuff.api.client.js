@@ -30,17 +30,12 @@ class StuffApiClient {
    * @param {object} object
    * @returns {Promise<void>}
    */
-  static async getStuffBy(jwt, object) {
-    console.log('object', object)
-
+  static async getStuffBy(jwt, params) {
+    console.log(params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
-    for(const [key, value] of Object.entries(object)){
-      console.log('!!! key value', object)
-      url.searchParams.append('title', '' )
-      url.searchParams.append('city', '')
-      url.searchParams.append('category', '')
-      console.log('key value of searchParams', key, value)
+    for(const [key, value] of Object.entries(params)){
+      url.searchParams.append(key, value)
     }
 
     const response = await fetch(url, {
@@ -50,16 +45,14 @@ class StuffApiClient {
         'authorization': jwt
       }
     })
-    console.log("###getStuffBySearch");
-    console.log(response);
+
     if (!response.ok) {
       throw await response.json()
     }
-    // console.log(response.json)
+
     return await response.json()
   }
 }
-// window.location.origin
 
 export default StuffApiClient
 

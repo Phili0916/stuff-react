@@ -1,45 +1,47 @@
 import React from 'react'
 import StuffApiClient from "../service/stuff.api.client";
 import CardStuff from "./card.stuff";
+import {
+  CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
+  CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
+  CATEGORY_MISCELLANEOUS, CATEGORY_MOBILE,
+  CATEGORY_MONITOR,
+  CATEGORY_MOUSE,
+  CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
+} from "../helper/constants";
 
 export default class SearchPage extends React.Component {
   constructor(props) {
     super(props)
-    console.log('searchPage props', props)
+
     this.state = {
       titleSearch: '',
       citySearch: '',
-      categorySearch: '',
+      categorySearch: undefined,
       allStuff: undefined
     }
   }
 
   // async componentDidMount() {
-    // await this._submitSearch()
+  // await this._submitSearch()
   // }
 
   async _submitSearch() {
-    const obj = {}
+    const params = {}
     // check if a title is set
-    if(this.state.titleSearch !==''){
-      obj.title = this.state.titleSearch
+    if (this.state.titleSearch !== '') {
+      params.title = this.state.titleSearch
     }
-    if(this.state.citySearch !== ''){
-      obj.city = this.state.citySearch
+    if (this.state.citySearch !== '') {
+      params.city = this.state.citySearch
     }
-    if(this.state.categorySearch !== '') {
-      obj.category = this.state.categorySearch
+    if (this.state.categorySearch !== undefined) {
+      params.category = this.state.categorySearch
     }
 
-    const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), obj )
-    // console.log('results')
-    // console.log(results)
-    // console.log("Phil", results.stuff.stuff[0]?.title)
-    //
-    console.log("titleProp", this.state)
-    // console.log("Phil2", results)
-    // console.log("Phil3", Array.of(results))
-    // console.log("search", this.state.titleSearch)
+
+    const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
+
     if (results.stuff.stuff.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
@@ -56,12 +58,14 @@ export default class SearchPage extends React.Component {
     // })
   }
 
-  searchChange(event) {
-    const value = event.target.value
-    this.setState({
-      [event.target.name]: value
+  async searchChange(event) {
+
+
+    await this.setState({
+      [event.target.name]: event.target.value
     })
-    }
+    console.log(this.state.categorySearch)
+  }
 
 
   // searchCityChange(event) {
@@ -108,19 +112,26 @@ export default class SearchPage extends React.Component {
                 value={citySearch}
                 onChange={(event) => this.searchChange(event)}
             />
-
-            <input
-                className={"search__Form__input"}
-                type="text"
-                name="categorySearch"
-                placeholder={"search by category"}
-                value={categorySearch}
-                onChange={(event) => this.searchChange(event)}
-            />
+            <select name="categorySearch" id=""
+                    onChange={(event) => this.searchChange(event)}>
+              <option value={undefined} selected={true}>--Category--</option>
+              <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
+              <option value={CATEGORY_MOUSE}>Mouse</option>
+              <option value={CATEGORY_MONITOR}>Monitor</option>
+              <option value={CATEGORY_SCREEN}>Screen</option>
+              <option value={CATEGORY_KEYBOARD}>Keyboard</option>
+              <option value={CATEGORY_LAPTOP}>Laptop</option>
+              <option value={CATEGORY_DESKTOP}>Desktop</option>
+              <option value={CATEGORY_HEADPHONE}>Headphones</option>
+              <option value={CATEGORY_MICROPHONE}>Microphone</option>
+              <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
+              <option value={CATEGORY_MOBILE}>Mobile</option>
+              <option value={CATEGORY_TABLET}>Tablets</option>
+            </select>
             {/*SEARCH BUTTON*/}
             <button className={"search__Form__button"}
-                      onClick={(event) =>
-                          this._submit(event)}>Search
+                    onClick={(event) =>
+                        this._submit(event)}>Search
             </button>
 
           </form>
@@ -133,26 +144,14 @@ export default class SearchPage extends React.Component {
               </div>)
               : (<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
+                  {this.state.allStuff.map(oneOfMyStuff => {
+                    return (
+                        <CardStuff
+                            stuff = {oneOfMyStuff}
+                        />
+                    )
+                  })}
 
-                  {Object.entries(this.state.allStuff).filter(stuff => {
-                    console.log("value", stuff)
-                      if(this.searchChange === '') {
-                        return stuff
-                      } else if(this.state.titleSearch.toLowerCase().includes(titleSearch.toLowerCase())
-                              || this.state.citySearch.toLowerCase().includes(citySearch.toLowerCase())
-                              || this.state.categorySearch.toLowerCase().includes(categorySearch.toLowerCase())
-                      ) {
-                        return stuff
-                      }
-                  }).map(stuff => (
-                       // console.log("value", value)
-                      <CardStuff
-                          {...this.setState.allStuff={stuff}}
-                      />
-
-                  ))
-
-                  }
                 </main>
 
               </div>)}
