@@ -59,8 +59,6 @@ export default class SearchPage extends React.Component {
   }
 
   async searchChange(event) {
-
-
     await this.setState({
       [event.target.name]: event.target.value
     })
@@ -93,50 +91,55 @@ export default class SearchPage extends React.Component {
     const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
-        <div className={"search__Page"}>
-          <form className={"search__Form"}>
-            <input
-                className={"search__Form__input"}
-                type="text"
-                name="titleSearch"
-                placeholder={"search by title"}
-                value={titleSearch}
-                onChange={(event) => this.searchChange(event)}
-            />
-
-            <input
-                className={"search__Form__input"}
-                type="text"
-                name="citySearch"
-                placeholder={"search by city"}
-                value={citySearch}
-                onChange={(event) => this.searchChange(event)}
-            />
-            <select name="categorySearch" id=""
-                    onChange={(event) => this.searchChange(event)}>
-              <option value={undefined} selected={true}>--Category--</option>
-              <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
-              <option value={CATEGORY_MOUSE}>Mouse</option>
-              <option value={CATEGORY_MONITOR}>Monitor</option>
-              <option value={CATEGORY_SCREEN}>Screen</option>
-              <option value={CATEGORY_KEYBOARD}>Keyboard</option>
-              <option value={CATEGORY_LAPTOP}>Laptop</option>
-              <option value={CATEGORY_DESKTOP}>Desktop</option>
-              <option value={CATEGORY_HEADPHONE}>Headphones</option>
-              <option value={CATEGORY_MICROPHONE}>Microphone</option>
-              <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
-              <option value={CATEGORY_MOBILE}>Mobile</option>
-              <option value={CATEGORY_TABLET}>Tablets</option>
-            </select>
-            {/*SEARCH BUTTON*/}
-            <button className={"search__Form__button"}
-                    onClick={(event) =>
-                        this._submit(event)}>Search
-            </button>
-
+        <div className={"form__container"}>
+          <div className={"form__block"}>
+            <h2 className={"form__title"}>Search for your Stuff</h2>
+            <form>
+              <div className={"form__input"}>
+                <input
+                    className={"form__input__textBox"}
+                    type="text"
+                    name="titleSearch"
+                    placeholder={"search by title"}
+                    value={titleSearch}
+                    onChange={(event) => this.searchChange(event)}
+                />
+              </div>
+              <div className={"form__input"}>
+                <input
+                    className={"form__input__textBox"}
+                    type="text"
+                    name="citySearch"
+                    placeholder={"search by city"}
+                    value={citySearch}
+                    onChange={(event) => this.searchChange(event)}
+                />
+               </div>
+               <div className={"form__input"}>
+                  <select className={"form__category__select"} name="categorySearch" value={categorySearch}>
+                        onChange={(event) => this.searchChange(event)}>
+                  <option value={undefined} selected={true}>--Category--</option>
+                  <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
+                  <option value={CATEGORY_MOUSE}>Mouse</option>
+                  <option value={CATEGORY_MONITOR}>Monitor</option>
+                  <option value={CATEGORY_SCREEN}>Screen</option>
+                  <option value={CATEGORY_KEYBOARD}>Keyboard</option>
+                  <option value={CATEGORY_LAPTOP}>Laptop</option>
+                  <option value={CATEGORY_DESKTOP}>Desktop</option>
+                  <option value={CATEGORY_HEADPHONE}>Headphones</option>
+                  <option value={CATEGORY_MICROPHONE}>Microphone</option>
+                  <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
+                  <option value={CATEGORY_MOBILE}>Mobile</option>
+                  <option value={CATEGORY_TABLET}>Tablets</option>
+                </select>
+               </div>
+              {/*SEARCH BUTTON*/}
+              <button className={"search__Form__button"}
+                      onClick={(event) =>
+                          this._submit(event)}>Search
+              </button>
           </form>
-
-
+        </div>
           {this.state.allStuff === undefined
               ? (<div className={"stuff_home"}>
 

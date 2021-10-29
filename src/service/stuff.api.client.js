@@ -1,5 +1,20 @@
 class StuffApiClient {
 
+  static async createPost(jwt, body) {
+    console.log('body', body)
+    console.log('jwt', jwt)
+
+    const response = await fetch('http://localhost:9090/stuff/',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': jwt
+      },
+      body: JSON.stringify(body)
+    })
+    console.log('postResponse', response)
+  }
+
   static async getAllStuff(jwt) {
 
     console.log("###params")
@@ -31,7 +46,7 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
-    console.log(params)
+    console.log("params", params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
     for(const [key, value] of Object.entries(params)){
@@ -52,6 +67,8 @@ class StuffApiClient {
 
     return await response.json()
   }
+
+
 }
 
 

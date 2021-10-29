@@ -1,22 +1,40 @@
-.search__Page {
-    display: flex;
-    flex-direction: column;
-}
-.search__Form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
 
-.search__Form__input {
+.form__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form__block {
+    max-width: 800px;
+}
+
+.form__title {
+    font-size: 2em;
+}
+
+.form__input {
+    display: flex;
+    justify-content: center;
     margin-top: 5px;
     margin-left: 5px;
     margin-right: 5px;
+    padding: 2.5px 10px;
 }
+
+.form__input__textBox {
+    padding: 2.5px 10px;
+
+}
+
+form__category__select {
+    padding: 2.5px 10px;
 }
 
 .search__Form__button {
-    padding: 10px;
-    margin: auto;
+    display: flex;
+    margin: 10px auto;
     text-transform: uppercase;
     border: whitesmoke solid 1px;
     border-radius: 12px;

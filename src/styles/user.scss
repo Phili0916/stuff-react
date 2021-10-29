@@ -1,0 +1,43 @@
+.user__form__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.user__form__input {
+  align-items: center;
+}
+
+.userRegistrationForm_title {
+  font-size: 2em;
+  text-align: center;
+}
+
+.user__form__input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 2.5px 10px;
+}
+
+.user__form__input__textBox {
+  padding: 2.5px 10px;
+}
+
+.user__form__button {
+  display: flex;
+  margin: 20px auto;
+  text-transform: uppercase;
+  border: whitesmoke solid 1px;
+  border-radius: 12px;
+  color: blue;
+  font-size: 20px;
+  background_color: transparent;
+  padding: 20px 50px;
+  cursor: pointer;
+}

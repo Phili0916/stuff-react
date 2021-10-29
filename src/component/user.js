@@ -18,30 +18,33 @@ export default class User extends React.Component {
   // }
   render() {
     return (
-        <div className={'form__container'}>
-          <div className={'form__block'}>
+        <div className={'user__form__container'}>
+          <div className={'user__form__block'}>
             <h2 className={'userRegistrationForm_title'}>Would you like to Register?</h2>
           </div>
           <form>
-            <div className={"form__input"}></div>
+            <div className={"user__form__input"}></div>
               <input
+                  className={"user__form__input__textBox"}
                   type="text"
                   placeholder={"First Name"}
                   name={"firstName"}
               />
-            <div className={"form__input"}></div>
+            <div className={"user__form__input"}></div>
             <input
+                className={"user__form__input__textBox"}
                 type="text"
                 placeholder={"Last Name"}
                 name={"lastName"}
             />
-            <div className={"form__input"}></div>
+            <div className={"user__form__input"}></div>
             <input
+                className={"user__form__input__textBox"}
                 type="text"
                 placeholder={"email"}
                 name={"email"}
             />
-            <div className={"form__button"}>
+            <div className={"user__form__button"}>
               <button type={"submit"}>Register</button>
             </div>
           </form>

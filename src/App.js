@@ -11,6 +11,8 @@ import './styles/home.scss'
 import './styles/listStuff.scss'
 import './styles/cardStuff.scss'
 import './styles/searchPage.scss'
+import './styles/addStuffPage.scss'
+import './styles/user.scss'
 
 import Login from "./component/login";
 import Home from "./component/Home";
