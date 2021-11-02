@@ -34,6 +34,22 @@ class UserApiClient {
 
   }
 
+  static async signup( body) {
+    console.log('signup body', body)
+
+    const userRegisterResponse =  await fetch('http://localhost:9090/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    })
+    if (!userRegisterResponse.ok) {
+      throw await userRegisterResponse.json()
+    }
+      return await userRegisterResponse.json()
+    }
+
    static async getUser(userId, token) {
     const response = await fetch(`http://localhost:9090/auth/getUser/?id=`+userId, {
       method: 'GET',

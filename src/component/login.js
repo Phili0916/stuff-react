@@ -71,7 +71,7 @@ export default class Login extends React.Component {
                      type="text"
                      name="username"
                      value={this.state.username}
-                     placeholder="User Name"
+                     placeholder="CreateUser Name"
                      onChange={this.handleChange}
               />
             </label>
@@ -93,7 +93,7 @@ export default class Login extends React.Component {
               ? (<div className={"login__errorForm"}>Password is not correct</div>)
               : null}
           {this.state.badUser === true
-              ? (<div className={"login__errorForm"}>User Name is not valid</div>)
+              ? (<div className={"login__errorForm"}>CreateUser Name is not valid</div>)
               : null}
 
         </div>

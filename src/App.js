@@ -17,11 +17,12 @@ import './styles/user.scss'
 import Login from "./component/login";
 import Home from "./component/Home";
 import ListStuff from "./component/list.stuff";
-import User from "./component/user";
+import CreateUser from "./component/createUser";
 import Navbar from "./component/block/navbar";
 import SearchPage from "./component/searchPage";
 import CardStuff from "./component/card.stuff";
 import AddStuffPage from "./component/addStuffPage";
+
 
 
 
@@ -84,7 +85,7 @@ export default class App extends React.Component {
 
                       <Route path="/stuff" component={() => <ListStuff/>}/>
                       <Route path="/addStuff" component={() => <AddStuffPage/>}/>
-                      <Route path="/user" exact={true} component={() => <User/>}/>
+                      <Route path="/user" exact={true} component={() => <CreateUser/>}/>
 
                     </Switch>
                   </BrowserRouter>

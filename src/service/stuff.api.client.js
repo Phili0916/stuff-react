@@ -13,6 +13,10 @@ class StuffApiClient {
       body: JSON.stringify(body)
     })
     console.log('postResponse', response)
+    if (!response.ok) {
+      throw await response.json()
+    }
+    return await response.json()
   }
 
   static async getAllStuff(jwt) {
