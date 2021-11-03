@@ -44,6 +44,7 @@ class UserApiClient {
       },
       body: JSON.stringify(body)
     })
+    console.log('userRegistrationResponse', userRegisterResponse)
     if (!userRegisterResponse.ok) {
       throw await userRegisterResponse.json()
     }

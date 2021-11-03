@@ -1,3 +1,5 @@
+@import "constants";
+
 .user__form__container {
   display: flex;
   flex-direction: column;
@@ -40,4 +42,14 @@
   background_color: transparent;
   padding: 20px 50px;
   cursor: pointer;
+}
+
+.user__errorForm {
+  text-align: center;
+  color:$error_red;
+}
+
+.user__successForm {
+  text-align: center;
+  color: $my_blue;
 }

@@ -8,7 +8,9 @@ export default class CreateUser extends React.Component {
       addFirstName: undefined,
       addLastName: undefined,
       addEmail: undefined,
-      addPassword: undefined
+      addPassword: undefined,
+      createUserSuccess: false,
+      createUserError: false
     }
   }
 
@@ -28,8 +30,18 @@ export default class CreateUser extends React.Component {
     if(this.state.addPassword) {
       body.password = this.state.addPassword
     }
-    const results = await UserApiClient.signup(body)
-    console.log('submit createUser results', results)
+    try {
+      const results = await UserApiClient.signup(body)
+      console.log('submit createUser results', results)
+      this.setState({createUserSuccess: true})
+      console.log('create user results', results.message)
+      console.log('this.state.createUserSuccess', this.state.createUserSuccess)
+    } catch(e) {
+      const error = e.errors
+      console.log('error', error)
+      this.setState({createUserError: true})
+      console.log('this.state.createUserError', this.state.createUserError)
+    }
   }
 
   async addUserChange(event) {
@@ -71,6 +83,9 @@ export default class CreateUser extends React.Component {
                   onChange={(event) => this.addUserChange(event)}
               />
             </div>
+            {this.state.createUserError === true && this.state.addFirstName === undefined
+                ? (<div className={"user__errorForm"}>You must enter a valid First Name</div>)
+                : null}
             <div className={"user__form__input"}>
               <input
                   className={"user__form__input__textBox"}
@@ -81,6 +96,9 @@ export default class CreateUser extends React.Component {
                   onChange={(event) => this.addUserChange(event)}
               />
             </div>
+            {this.state.createUserError === true && this.state.addLastName === undefined
+                ? (<div className={"user__errorForm"}>You must enter a valid Last Name</div> )
+                : null}
             <div className={"user__form__input"}>
               <input
                   className={"user__form__input__textBox"}
@@ -91,6 +109,9 @@ export default class CreateUser extends React.Component {
                   onChange={(event) => this.addUserChange(event)}
               />
             </div>
+            {this.state.createUserError === true && this.state.addEmail === undefined
+                ? (<div className={"user__errorForm"}>You must add a valid and unique Email</div> )
+                : null}
             <div className={"user__form__input"}>
               <input
                 className={"user__form__input__textBox"}
@@ -101,6 +122,9 @@ export default class CreateUser extends React.Component {
                 onChange={(event) => this.addUserChange(event)}
               />
             </div>
+            {this.state.createUserError === true && this.state.addPassword === undefined
+                ? (<div className={"user__errorForm"}>You must enter a valid Password</div> )
+                : null}
             <div className={"user__form__button"}>
               <button type={"submit"}
                       onClick={(event) =>
@@ -108,6 +132,14 @@ export default class CreateUser extends React.Component {
               </button>
             </div>
           </form>
+
+          {this.state.createUserSuccess === true &&
+              this.state.addFirstName !== undefined &&
+              this.state.addLastName !== undefined &&
+              this.state.addEmail !== undefined &&
+              this.state.addPassword !== undefined
+              ? (<div className={"user__successForm"}>You have Registered Successfully</div> )
+              : null}
         </div>
     )
   }
