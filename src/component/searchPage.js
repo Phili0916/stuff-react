@@ -41,9 +41,9 @@ export default class SearchPage extends React.Component {
 
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-
+      console.log()
     if (results.stuff.stuff.length >= 1) {
-      await this.setState({allStuff: results.stuff.stuff})
+      await this.setState({allStuff: results.stuff})
     } else {
       await this.setState({allStuff: undefined})
     }
@@ -147,12 +147,9 @@ export default class SearchPage extends React.Component {
               </div>)
               : (<div className={'stuff_home'}>
                 <main className={'stuff_main'}>
-                  {this.state.allStuff.map(oneOfMyStuff => {
-                    return (
-                        <CardStuff
-                            stuff = {oneOfMyStuff}
-                        />
-                    )
+
+                        <CardStuff />
+                    {/*)*/}
                   })}
 
                 </main>

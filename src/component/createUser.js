@@ -138,7 +138,9 @@ export default class CreateUser extends React.Component {
               this.state.addLastName !== undefined &&
               this.state.addEmail !== undefined &&
               this.state.addPassword !== undefined
-              ? (<div className={"user__successForm"}>You have Registered Successfully</div> )
+              ? (<div className={"user__successForm"}>
+                  <h2>You have Registered Successfully {this.state.addFirstName} {this.state.addLastName}</h2>
+                </div> )
               : null}
         </div>
     )

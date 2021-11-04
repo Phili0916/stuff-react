@@ -68,30 +68,54 @@ export default class CardStuff extends React.Component {
   }
 
   render() {
-    console.log("this.props", this.props.stuff?.title)
+    console.log(this.props.stuff.title)
     return (
+        // <div className={"card__stuff"}>
+        //   <div className={"card__stuff__title"}>
+        //     Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
+        //
+        //   </div>
+        //
+        //   <div className={"card__stuff__title"}>
+        //     Category : <span className={"card__stuff__title__label"}>{this.state.category}</span>
+        //   </div>
+        //
+        //   <div className={"card__stuff__title"}>
+        //     Description : <span className={"card__stuff__title__label"}>{this.props.stuff.description}</span>
+        //   </div>
+        //
+        //   <div className={"card__stuff__title"}>
+        //     Price : <span className={"card__stuff__title__label"}>{this.props.stuff.price}</span>
+        //   </div>
+        //
+        //   <div className={"card__stuff__title"} >
+        //
+        //   </div>
+        //
+        // </div>
         <div className={"card__stuff"}>
-          <div className={"card__stuff__title"}>
-            Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
+          <h2 className={"card__stuff__title"}></h2>
+          <table className={"card__stuff__table"}>
+           <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Price</th>
+            </tr>
+           </thead>
+            <tbody>
+            {this.state.allStuff.map((oneOfMyStuff) => (
+              <tr>
+                <td>oneOfMyStuff.category</td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            ))}
 
-          </div>
-
-          <div className={"card__stuff__title"}>
-            Category : <span className={"card__stuff__title__label"}>{this.state.category}</span>
-          </div>
-
-          <div className={"card__stuff__title"}>
-            Description : <span className={"card__stuff__title__label"}>{this.props.stuff.description}</span>
-          </div>
-
-          <div className={"card__stuff__title"}>
-            Price : <span className={"card__stuff__title__label"}>{this.props.stuff.price}</span>
-          </div>
-
-          <div className={"card__stuff__title"} >
-
-          </div>
-
+            </tbody>
+          </table>
         </div>
     )
   }

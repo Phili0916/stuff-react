@@ -1,58 +1,89 @@
 @import "constants";
 
-.addStuff__form__container {
+.addStuff__form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 20px;
+  padding: 10px;
+  background-color: pink;
 }
 
-.addStuff__form__block {
-  align-items: center;
-}
-
-.addStuff__form__title {
-  font-size: 2em;
-  text-align: center
-}
-
-
-.addStuff__form__input {
+.addStuff__form__container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding: 2.5px 10px;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.addStuff__form__input__textBox {
-  padding: 2.5px 10px;
+.addStuff__form__body {
+  align-items: center;
+  max-width: 80%;
+  width: 100%;
+  background-color: $bg-form;
+  padding: 25px 30px;
+  border-radius: 5px;
+
+  .addStuff__form__title {
+    font-size: 2em;
+    text-align: center
+  }
+
+  .addStuff__form__container__input {
+    margin-top: 20px;
+
+    .addStuff__form__label__title,
+    .addStuff__form__label__category,
+    .addStuff__form__label__description,
+    .addStuff__form__label__price,
+    .addStuff__form__label__owner,
+    .addStuff__form__label__status,
+    .addStuff__form__label__reference,
+    {
+      align-items: flex-start;
+      color: red;
+      margin-bottom: 100px;
+    }
+
+    .addStuff__form__label__title, {
+      font-weight: bolder;
+    }
+
+
+    .addStuff__form__input__title,
+    .addStuff__form__input__textBox {
+      padding: 2.5px 20px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .addStuff__form__input__title {
+      font-weight: bold;
+    }
+
+    .addStuff__userChange__select {
+      padding: 2.5px 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+  }
 
 }
 
-.addStuff__search__Form__button {
+.addStuff__search__form__button {
   display: flex;
   margin: 20px auto;
   text-transform: uppercase;
-  border: whitesmoke solid 1px;
-  border-radius: 12px;
   color: blue;
   font-size: 20px;
-  background_color: transparent;
   padding: 20px 50px;
   cursor: pointer;
 }
 
-.addStuff__userChange__select {
-  padding: 2.5px 10px;
-}
 
 .addStuff__errorForm {
   text-align: center;
-  color:$error_red;
+  color: $error_red;
 }
 
 .addStuff__successForm {

@@ -66,7 +66,7 @@ export default class Login extends React.Component {
                   this._submit(event)}
               // action={"zer"}
           >
-            <label>
+            <label className="login__label">
               <input className={"login__username__input"}
                      type="text"
                      name="username"
@@ -75,7 +75,7 @@ export default class Login extends React.Component {
                      onChange={this.handleChange}
               />
             </label>
-            <label>
+            <label className="login__label">
               <input className={"login__username__input"}
                      type={"text"}
                      name="password"

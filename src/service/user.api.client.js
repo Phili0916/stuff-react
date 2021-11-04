@@ -67,6 +67,21 @@ class UserApiClient {
     }
     return await response.json()
   }
+
+  static async getAllUsers(token) {
+    const getAllUsersResponse =  await fetch('http://localhost:9090/auth/getAllUsers/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+    })
+    console.log('getAllUsersResponse', getAllUsersResponse)
+    if(!getAllUsersResponse.ok){
+      throw await getAllUsersResponse.json()
+    }
+    return await getAllUsersResponse.json()
+  }
 }
 
 export default UserApiClient

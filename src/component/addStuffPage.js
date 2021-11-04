@@ -2,6 +2,7 @@ import React from "react";
 import StuffApiClient from "../service/stuff.api.client";
 import UserApiClient from "../service/user.api.client";
 import {
+  STATUS_NEW, STATUS_USED, STATUS_LOST, STATUS_BROKEN,
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
   CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
   CATEGORY_MISCELLANEOUS, CATEGORY_MOBILE,
@@ -20,16 +21,35 @@ export default class AddStuffPage extends React.Component {
       addCategory: undefined,
       addDescription: '',
       addPrice: undefined,
-      addOwnerId: undefined,
+      addOwnerId: 0,
       addReference: undefined,
       addStatus: undefined,
       // userSelect: undefined,
-      saveSuccess : false,
-      saveError : false,
+      saveSuccess: false,
+      saveError: false,
+      users: []
     }
   }
 
-  async _submitStuff() {
+  async componentDidMount() {
+    const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
+    this.setState({users: allUsers.users})
+
+  }
+
+  async addStuffChange(event) {
+    await this.setState({
+      [event.target.name]: event.target.value
+    })
+    console.log('this.state.addOwnerId', this.state.addOwnerId)
+  }
+
+  async toggleUserChange() {
+
+  }
+
+  async _submit(event) {
+    event.preventDefault()
     const body = {}
 
     if (this.state.addTitle !== '') {
@@ -44,7 +64,7 @@ export default class AddStuffPage extends React.Component {
     if (this.state.addPrice !== undefined) {
       body.price = Number.parseInt(this.state.addPrice)
     }
-    if (this.state.addOwnerId !== undefined) {
+    if (this.state.addOwnerId !== undefined && this.state.addOwnerId !== 0) {
       body.ownerId = this.state.addOwnerId
     }
     if (this.state.addReference !== undefined) {
@@ -56,183 +76,188 @@ export default class AddStuffPage extends React.Component {
     try {
       const results = await StuffApiClient.createPost(JSON.parse(localStorage.getItem('jwt')), body)
       console.log('results', results)
-          this.setState({saveSuccess : true})
-          console.log('results', results)
-          console.log('message results', results.message)
-          console.log('this.setState.saveSuccess', this.state.saveSuccess)
+      this.setState({saveSuccess: true})
+      console.log('results', results)
+      console.log('message results', results.message)
+      console.log('this.setState.saveSuccess', this.state.saveSuccess)
     } catch (e) {
       const error = e.errors
       console.log('error')
       console.log(error)
-      this.setState({saveError : true})
+      this.setState({saveError: true})
       console.log('this.setState.saveError', this.state.saveError)
     }
 
-  }
-
-  async addStuffChange(event) {
-    await this.setState({
-      [event.target.name]: event.target.value
-    })
-    console.log('this.state.addTitle', this.state.addTitle)
-  }
-
-  // async toggleUserChange() {
-  //   const userData = await UserApiClient.checkIfUsernameAndPasswordAreOK(this.state.username, this.state.password)
-  //   console.log('userData', userData)
-  //   const {userChange} = await UserApiClient.getUser(userData.userId, userData.token)
-  //   this.props.onAuthenticationSuccess(userData.userId, userData.token, userChange)
-  // }
-
-  async _submit(event) {
-    event.preventDefault()
-    await this._submitStuff()
     // await this.toggleUserChange()
   }
 
   render() {
-
-    const {addTitle, addCategory, addDescription, addPrice, userSelect, addOwnerId, addReference, addStatus} = this.state
+    console.log(this.state.addOwnerId)
+    const {
+      addTitle,
+      addCategory,
+      addDescription,
+      addPrice,
+      userSelect,
+      addOwnerId,
+      addReference,
+      addStatus,
+      saveError
+    } = this.state
 
     return (
-        <div className={"addStuff__form__container"}>
-          <div className={"addStuff__form__block"}>
+        <div className={"addStuff__form"}>
+          <div className={"addStuff__form__body"}>
             <h2 className={"addStuff__form__title"}>Add Your Stuff</h2>
-            <form>
-              <div className={"addStuff__form__input"}>
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addTitle"}
-                    type="text"
-                    placeholder={"Enter the title"}
-                    value={addTitle}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
+            <form className={"addStuff__form__container"}>
+
+              <div className={"addStuff__form__container__left"}>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__title"} htmlFor={"addTitle"}>Title (*)
+
+                    {saveError === true && addTitle === ''
+                        ? (<div className={"addStuff__errorForm"}>You must Enter a Title for your Stuff</div>)
+                        : null}
+                  </label>
+                  <input
+                      className={"addStuff__form__input__title"}
+                      name={"addTitle"}
+                      type="text"
+                      placeholder={"Enter the title"}
+                      value={addTitle}
+                      onChange={(event) => this.addStuffChange(event)}
+                  />
+                </div>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__category"} htmlFor={"addCategory"}>Category (*) </label>
+                  <select
+                      className={"addStuff__form__input__textBox"}
+                      name={"addCategory"}
+                      placeholder={"Enter Category of Stuff"}
+                      value={addCategory}
+                      onChange={(event) => this.addStuffChange(event)}>
+                    <option value={undefined} selected={true}>--Category--</option>
+                    <option value={CATEGORY_MISCELLANEOUS}>Miscellaneous</option>
+                    <option value={CATEGORY_MOUSE}>Mouse</option>
+                    <option value={CATEGORY_MONITOR}>Monitor</option>
+                    <option value={CATEGORY_SCREEN}>Screen</option>
+                    <option value={CATEGORY_KEYBOARD}>Keyboard</option>
+                    <option value={CATEGORY_LAPTOP}>Laptop</option>
+                    <option value={CATEGORY_DESKTOP}>Desktop</option>
+                    <option value={CATEGORY_HEADPHONE}>Headphones</option>
+                    <option value={CATEGORY_MICROPHONE}>Microphone</option>
+                    <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
+                    <option value={CATEGORY_MOBILE}>Mobile</option>
+                    <option value={CATEGORY_TABLET}>Tablets</option>
+                  </select>
+                </div>
+                {this.state.saveError === true && this.state.addCategory === undefined
+                    ? (<div className={"addStuff__errorForm"}>You Must Choose a Category for your Stuff</div>)
+                    : null}
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__description"}
+                         htmlFor={"addDescription"}>Description </label>
+                  <input
+                      className={"addStuff__form__input__textBox"}
+                      name={"addDescription"}
+                      type="text"
+                      placeholder={"Enter the Stuff's Description"}
+                      value={addDescription}
+                      onChange={(event) => this.addStuffChange(event)}
+                  />
+                </div>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__price"} htmlFor={"addPrice"}>Price (*) </label>
+                  <input
+                      className={"addStuff__form__input__textBox"}
+                      name={"addPrice"}
+                      type="text"
+                      placeholder={"Enter the Stuff's Price"}
+                      value={addPrice}
+                      onChange={(event) => this.addStuffChange(event)}
+                  />
+                  {this.state.saveError === true && this.state.addPrice === undefined
+                      ? (<div className={"addStuff__errorForm"}>You must Give your Stuff a Price</div>)
+                      : null}
+                </div>
               </div>
-              {this.state.saveError === true && this.state.addTitle === ''
-                  ? (<div className={"addStuff__errorForm"}>You must Enter a Title for your Stuff</div>)
-                  : null}
-              <div className={"addStuff__form__input"}>
-                <select
-                    className={"addStuff__form__input__textBox"}
-                    name={"addCategory"}
-                    placeholder={"Enter Category of Stuff"}
-                    value={addCategory}
-                    onChange={(event) => this.addStuffChange(event)}>
-                  <option value={undefined} selected={true}>--Category--</option>
-                  <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
-                  <option value={CATEGORY_MOUSE}>Mouse</option>
-                  <option value={CATEGORY_MONITOR}>Monitor</option>
-                  <option value={CATEGORY_SCREEN}>Screen</option>
-                  <option value={CATEGORY_KEYBOARD}>Keyboard</option>
-                  <option value={CATEGORY_LAPTOP}>Laptop</option>
-                  <option value={CATEGORY_DESKTOP}>Desktop</option>
-                  <option value={CATEGORY_HEADPHONE}>Headphones</option>
-                  <option value={CATEGORY_MICROPHONE}>Microphone</option>
-                  <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
-                  <option value={CATEGORY_MOBILE}>Mobile</option>
-                  <option value={CATEGORY_TABLET}>Tablets</option>
-              </select>
-              </div>
-              {this.state.saveError === true && this.state.addCategory === undefined
-              ? (<div className={"addStuff__errorForm"}>You Must Choose a Category for your Stuff</div> )
-              : null}
-              <div className={"addStuff__form__input"}>
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addDescription"}
-                    type="text"
-                    placeholder={"Enter the Stuff's Description"}
-                    value={addDescription}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
-              </div>
-              <div className={"addStuff__form__input"}>
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addPrice"}
-                    type="text"
-                    placeholder={"Enter the Stuff's Price"}
-                    value={addPrice}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
-              </div>
-              {this.state.saveError === true && this.state.addPrice === undefined
-              ? (<div className={"addStuff__errorForm"}>You must Give your Stuff a Price</div> )
-              : null}
-              <div className={"addStuff__form__input"}>
-                {/*<select className={"addStuff__userChange__select"} name={"addOwnerId"} value={addOwnerId}*/}
-                {/*        onChange={(event) => this.addStuffChange(event)}>*/}
-                {/*  <option name={"addOwnerId"} value={addOwnerId}>Nobody</option>*/}
-                {/*  /!*<option value="1">user 1</option>*!/*/}
-                {/*  /!*<option value="2">user 2</option>*!/*/}
+
+              {/*Part right*/}
+              <div className={"addStuff__form__container__right"}>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__owner"} htmlFor={"addOwnerId"}>Choose an Owner Id </label>
+                  <select className={"addStuff__userChange__select"} name={"addOwnerId"} value={addOwnerId}
+                          onChange={(event) => this.addStuffChange(event)}>
+                    <option name={"addOwnerId"} value="0">Nobody</option>
+                    {this.state.users.map(user =>
+                        <option value={user._id}>{user.firstName} {user.lastName}</option>
+                    )}
+                  </select>
+                  {this.state.saveError === true && this.state.addOwnerId === undefined
+                      ? (<div className={"addStuff__errorForm"}>You must add an OwnerId to your Stuff</div>)
+                      : null}
+                </div>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__status"} htmlFor={"addStatus"}>Add a Status </label>
+                  <select
+                      className={"addStuff__form__input__textBox"}
+                      name={"addStatus"}
+                      placeholder={"Enter the Status of your Stuff"}
+                      value={addStatus}
+                      onChange={(event) => this.addStuffChange(event)}>
+                    <option value={undefined} selected={true}>--Category--</option>
+                    <option value={STATUS_NEW}>Status New</option>
+                    <option value={STATUS_USED}>Status Used</option>
+                    <option value={STATUS_LOST}>Status Lost</option>
+                    <option value={STATUS_BROKEN}>Status Broken</option>
+                  </select>
+                </div>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"addStuff__form__label__reference"} htmlFor={"addReference"}>Choose a
+                    Reference </label>
+                  <input
+                      className={"addStuff__form__input__textBox"}
+                      name={"addReference"}
+                      type="text"
+                      placeholder={"Enter the Reference"}
+                      value={addReference}
+                      onChange={(event) => this.addStuffChange(event)}
+                  />
 
 
-                {/*</select>*/}
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addOwnerId"}
-                    type="text"
-                    placeholder={"Enter Your Owner Id"}
-                    value={addOwnerId}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
+                </div>
               </div>
-              {this.state.saveError === true && this.state.addOwnerId === undefined
-              ? (<div className={"addStuff__errorForm"}>You must add an OwnerId to your Stuff</div> )
-              : null}
-              <div className={"addStuff__form__input"}>
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addReference"}
-                    type="text"
-                    placeholder={"Enter the Reference"}
-                    value={addReference}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
-              </div>
-              {this.state.saveError === true && this.state.addReference === undefined
-              ? (<div className={"addStuff__errorForm"}>Your Stuff needs a Reference</div> )
-              : null}
-              <div className={"addStuff__form__input"}>
-                <input
-                    className={"addStuff__form__input__textBox"}
-                    name={"addStatus"}
-                    type="text"
-                    placeholder={"Enter the Status of your Stuff"}
-                    value={addStatus}
-                    onChange={(event) => this.addStuffChange(event)}
-                />
-              </div>
-              <div className={"addStuff__search__Form__button"}>
-                <button type={"submit"}
-                        // disabled={
-                        //     this.state.addTitle === '' ||
-                        //     this.state.addCategory === undefined ||
-                        //     this.state.addPrice === undefined ||
-                        //     this.state.addOwnerId === undefined ||
-                        //     this.state.addReference === undefined
-                        //     }
-                        onClick={(event) =>
-                            this._submit(event)}>Submit Stuff
-                </button>
-              </div>
-              {/*{this.state.saveSuccess &&(*/}
-              {/*    <div className="addStuff__success">*/}
-              {/*      Enregistrement réalisé*/}
-              {/*    </div>*/}
-              {/*)}*/}
+              {/*{this.state.saveError === true && this.state.addReference === undefined*/}
+              {/*    ? (<div className={"addStuff__errorForm"}>Your Stuff needs a Reference</div>)*/}
+              {/*    : null}*/}
+
+
+
 
             </form>
 
+
+            <div className={"addStuff__search__form__button"}>
+              <button type={"submit"}
+                  // disabled={
+                  //     this.state.addTitle === '' ||
+                  //     this.state.addCategory === undefined ||
+                  //     this.state.addPrice === undefined ||
+                  //     this.state.addOwnerId === undefined ||
+                  //     this.state.addReference === undefined
+                  //     }
+                      onClick={(event) =>
+                          this._submit(event)}>Create Stuff
+              </button>
+            </div>
             {this.state.saveSuccess === true &&
-                this.state.addTitle !== '' &&
-                this.state.addCategory !== undefined &&
-                this.state.addPrice !== undefined &&
-                this.state.addOwnerId !== undefined &&
-                this.state.addReference !== undefined
-                ? (<div className={"addStuff__successForm"}>Your Stuff has been submitted successfully</div> )
-            : null }
+            this.state.addTitle !== '' &&
+            this.state.addCategory !== undefined &&
+            this.state.addPrice !== undefined &&
+            this.state.addOwnerId !== undefined &&
+            this.state.addReference !== undefined
+                ? (<div className={"addStuff__successForm"}>Your Stuff has been submitted successfully</div>)
+                : null}
 
           </div>
         </div>
