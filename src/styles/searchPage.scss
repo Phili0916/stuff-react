@@ -44,3 +44,34 @@ form__category__select {
     padding: 20px 50px;
     cursor: pointer;
 }
+
+.searchPage__stuff__table__container {
+
+}
+
+.searchPage__stuff__table {
+    border-collapse: collapse;
+    min-width: 40vw;
+    width: auto;
+    cursor: pointer;
+    border: 2px solid #191970;
+}
+
+.searchPage__stuff__table__head {
+    background-color: #6495ed;
+    color: #fff5ee;
+    text-align: left;
+}
+
+th, td {
+    padding: 20px 25px
+}
+
+
+tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+    background-color: #fffaf0;
+}

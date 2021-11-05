@@ -9,6 +9,7 @@ export class Navbar extends React.Component {
 
   _navigate(destination){
     this.props.history.push(destination)
+    console.log('history', this.props.history)
   }
 
   _logout(e){

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {withRouter} from "react-router-dom";
 import SearchPage from "./searchPage";
 import {
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
@@ -10,10 +11,11 @@ import {
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
 } from "../helper/constants";
 
+
 import StuffApiClient from "../service/stuff.api.client";
 
 
-export default class CardStuff extends React.Component {
+export class CardStuff extends React.Component {
 
   constructor(props) {
     super(props);
@@ -82,6 +84,10 @@ export default class CardStuff extends React.Component {
     }
   }
 
+  _navigate(destination) {
+    this.props.history.push(destination)
+  }
+
   _update(){
     console.log('navigate to one stuff in order to update it')
   }
@@ -89,7 +95,8 @@ export default class CardStuff extends React.Component {
 
   render() {
     return (
-        <tr>
+        <tr className={"searchPage__stuff__table__body"}>
+
           <td>
             {this.props.stuff._id}
           </td>
@@ -102,58 +109,11 @@ export default class CardStuff extends React.Component {
           <td>4</td>
           <td>5</td>
           <td>6</td>
-          <td onClick={()=>this._update()}>update</td>
+          <td onClick={()=>this._navigate("/updateStuff")}>update</td>
           <td>show</td>
-          <td>delete</td>
+          <td onClick={()=>this._navigate("/deleteStuff")}>delete</td>
         </tr>
-        // <div className={"card__stuff"}>
-        //   <div className={"card__stuff__title"}>
-        //     Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
-        //
-        //   </div>
-        //
-        //   <div className={"card__stuff__title"}>
-        //     Category : <span className={"card__stuff__title__label"}>{this.state.category}</span>
-        //   </div>
-        //
-        //   <div className={"card__stuff__title"}>
-        //     Description : <span className={"card__stuff__title__label"}>{this.props.stuff.description}</span>
-        //   </div>
-        //
-        //   <div className={"card__stuff__title"}>
-        //     Price : <span className={"card__stuff__title__label"}>{this.props.stuff.price}</span>
-        //   </div>
-        //
-        //   <div className={"card__stuff__title"} >
-        //
-        //   </div>
-        //
-        // </div>
-        // <div className={"card__stuff"}>
-        //   <h2 className={"card__stuff__title"}></h2>
-        //   <table className={"card__stuff__table"}>
-        //    <thead>
-        //     <tr>
-        //       <th></th>
-        //       <th>Category</th>
-        //       <th>Description</th>
-        //       <th>Price</th>
-        //     </tr>
-        //    </thead>
-        //     <tbody>
-        //     {/*{this.state.allStuff.map((oneOfMyStuff) => (*/}
-        //       <tr>
-        //         <td>rdtft</td>
-        //         <td></td>
-        //         <td></td>
-        //         <td></td>
-        //       </tr>
-        //     {/*))}*/}
-        //
-        //     </tbody>
-        //   </table>
-        // </div>
     )
   }
-
 }
+export default withRouter(CardStuff)

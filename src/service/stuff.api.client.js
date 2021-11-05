@@ -72,6 +72,18 @@ class StuffApiClient {
     return await response.json()
   }
 
+  static async deleteStuffBy(jwt, params) {
+    console.log("delete stuff params", params)
+
+    const deleteStuffResponse = await fetch('http://localhost:9090/stuff/:id', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': jwt
+      }
+    })
+
+  }
 
 }
 

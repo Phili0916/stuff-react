@@ -22,6 +22,8 @@ import Navbar from "./component/block/navbar";
 import SearchPage from "./component/searchPage";
 import CardStuff from "./component/card.stuff";
 import AddStuffPage from "./component/addStuffPage";
+import DeleteStuffPage from "./component/deleteStuffPage";
+import UpdateStuffPage from "./component/updateStuffPage";
 
 
 
@@ -86,6 +88,8 @@ export default class App extends React.Component {
                       <Route path="/stuff" component={() => <ListStuff/>}/>
                       <Route path="/addStuff" component={() => <AddStuffPage/>}/>
                       <Route path="/user" exact={true} component={() => <CreateUser/>}/>
+                      <Route path="/deleteStuff" component={() => <DeleteStuffPage/>}/>
+                      <Route path="/updateStuff" component={() => <UpdateStuffPage/>}/>
 
                     </Switch>
                   </BrowserRouter>

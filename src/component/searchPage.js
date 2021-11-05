@@ -150,9 +150,9 @@ export default class SearchPage extends React.Component {
 
                 <p>No stuff found</p>
               </div>)
-              : (<div className={'stuff_home'}>
-                <table className={'stuff_table'}>
-                  <thead>
+              : (<div className={'searchPage__stuff__table__container'}>
+                <table className={'searchPage__stuff__table'}>
+                  <thead className={"searchPage__stuff__table__head"}>
                     <th>Id</th>
                     <th>Title</th>
                     <th>Price</th>
