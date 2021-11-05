@@ -22,9 +22,12 @@ export default class SearchPage extends React.Component {
     }
   }
 
-  // async componentDidMount() {
-  // await this._submitSearch()
-  // }
+  async componentDidMount() {
+
+  await this._submitSearch()
+  }
+
+
 
   async _submitSearch() {
     const params = {}
@@ -41,9 +44,9 @@ export default class SearchPage extends React.Component {
 
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-      console.log()
+      console.log(results)
     if (results.stuff.stuff.length >= 1) {
-      await this.setState({allStuff: results.stuff})
+      await this.setState({allStuff: results.stuff.stuff})
     } else {
       await this.setState({allStuff: undefined})
     }
@@ -62,7 +65,9 @@ export default class SearchPage extends React.Component {
     await this.setState({
       [event.target.name]: event.target.value
     })
-    console.log(this.state.categorySearch)
+    console.log('event', event)
+    console.log('this.state.categorySearch', this.state.categorySearch)
+    console.log('citySearch', this.state.citySearch)
   }
 
 
@@ -84,8 +89,8 @@ export default class SearchPage extends React.Component {
   }
 
   render() {
-    // console.log('this.state.allStuff')
-    // console.log(this.state.allStuff)
+    console.log('this.state.allStuff')
+    console.log(this.state.allStuff)
     // console.log('titleSearch', this.state.titleSearch)
     // console.log("citySearch", this.state.citySearch)
     const {titleSearch, citySearch, categorySearch} = this.state
@@ -116,7 +121,7 @@ export default class SearchPage extends React.Component {
                 />
                </div>
                <div className={"form__input"}>
-                  <select className={"form__category__select"} name="categorySearch" value={categorySearch}>
+                  <select className={"form__category__select"} name="categorySearch" value={categorySearch}
                         onChange={(event) => this.searchChange(event)}>
                   <option value={undefined} selected={true}>--Category--</option>
                   <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
@@ -146,13 +151,28 @@ export default class SearchPage extends React.Component {
                 <p>No stuff found</p>
               </div>)
               : (<div className={'stuff_home'}>
-                <main className={'stuff_main'}>
+                <table className={'stuff_table'}>
+                  <thead>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Price</th>
+                    <th>Price</th>
+                    <th>Price</th>
+                    <th>Update</th>
+                    <th>Show</th>
+                    <th>Delete</th>
 
-                        <CardStuff />
-                    {/*)*/}
+                  </thead>
+                  {this.state.allStuff.map(oneOfMyStuff => {
+                    return (
+                        <CardStuff
+                            stuff = {oneOfMyStuff}
+                        />
+                    )
                   })}
 
-                </main>
+                </table>
 
               </div>)}
         </div>

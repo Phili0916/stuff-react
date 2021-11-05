@@ -1,5 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import SearchPage from "./searchPage";
+import {
+  CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
+  CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
+  CATEGORY_MISCELLANEOUS, CATEGORY_MOBILE,
+  CATEGORY_MONITOR,
+  CATEGORY_MOUSE,
+  CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
+} from "../helper/constants";
+
+import StuffApiClient from "../service/stuff.api.client";
 
 
 export default class CardStuff extends React.Component {
@@ -19,57 +30,82 @@ export default class CardStuff extends React.Component {
 
 
   componentDidMount() {
-    switch (parseInt(this.props.stuff.category)) {
-      case 0 :
+    console.log(this.props)
+    // 0 1 12
+
+    switch (parseInt(this.props.category)) {
+      case CATEGORY_MISCELLANEOUS :
         this.setState({category: 'Divers'})
         // console.log("##thisCard");
         // console.log(this)
         break
-      case 1 :
+      case CATEGORY_MOUSE :
         this.setState({category: 'Mouse'})
         // console.log("##thisCard");
         // console.log(this)
         break
-      case 2 :
+      case CATEGORY_MONITOR :
         this.setState({category: 'Monitor'})
         // console.log("##thisCard");
         // console.log(this)
         break
-      case 3 :
+      case CATEGORY_SCREEN :
         this.setState({category: 'Screen'})
         break
-      case 4 :
+      case CATEGORY_KEYBOARD :
         this.setState({category: 'keyboard'})
         break
-      case 5 :
+      case CATEGORY_LAPTOP :
         this.setState({category: 'laptop'})
         break
-      case 6 :
+      case CATEGORY_DESKTOP :
         this.setState({category: 'Desktop'})
         break
-      case 7 :
+      case CATEGORY_HEADPHONE :
         this.setState({category: 'Headphones'})
         break
-      case 8 :
+      case CATEGORY_MICROPHONE :
         this.setState({category: 'Microphone'})
         break
-      case 9 :
+      case CATEGORY_SPEAKERPHONE :
         this.setState({category: 'speakerphone'})
         break
-      case 10 :
+      case CATEGORY_MOBILE :
         this.setState({category: 'mobile'})
         break
-      case 11 :
+      case CATEGORY_TABLET :
         this.setState({category: 'tablet'})
         break
       default :
+        this.setState({category: 'other'})
         return
     }
   }
 
+  _update(){
+    console.log('navigate to one stuff in order to update it')
+  }
+
+
   render() {
-    console.log(this.props.stuff.title)
     return (
+        <tr>
+          <td>
+            {this.props.stuff._id}
+          </td>
+          <td>
+            {this.props.stuff.title}
+          </td>
+          <td>
+            {this.props.stuff.price}
+          </td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td onClick={()=>this._update()}>update</td>
+          <td>show</td>
+          <td>delete</td>
+        </tr>
         // <div className={"card__stuff"}>
         //   <div className={"card__stuff__title"}>
         //     Title : <span className={"card__stuff__title__label"}>{this.props.stuff.title}</span>
@@ -93,30 +129,30 @@ export default class CardStuff extends React.Component {
         //   </div>
         //
         // </div>
-        <div className={"card__stuff"}>
-          <h2 className={"card__stuff__title"}></h2>
-          <table className={"card__stuff__table"}>
-           <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Price</th>
-            </tr>
-           </thead>
-            <tbody>
-            {this.state.allStuff.map((oneOfMyStuff) => (
-              <tr>
-                <td>oneOfMyStuff.category</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            ))}
-
-            </tbody>
-          </table>
-        </div>
+        // <div className={"card__stuff"}>
+        //   <h2 className={"card__stuff__title"}></h2>
+        //   <table className={"card__stuff__table"}>
+        //    <thead>
+        //     <tr>
+        //       <th></th>
+        //       <th>Category</th>
+        //       <th>Description</th>
+        //       <th>Price</th>
+        //     </tr>
+        //    </thead>
+        //     <tbody>
+        //     {/*{this.state.allStuff.map((oneOfMyStuff) => (*/}
+        //       <tr>
+        //         <td>rdtft</td>
+        //         <td></td>
+        //         <td></td>
+        //         <td></td>
+        //       </tr>
+        //     {/*))}*/}
+        //
+        //     </tbody>
+        //   </table>
+        // </div>
     )
   }
 
