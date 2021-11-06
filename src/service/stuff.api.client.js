@@ -83,6 +83,12 @@ class StuffApiClient {
       }
     })
 
+    console.log('deleteStuffResponse', deleteStuffResponse)
+
+    if(!deleteStuffResponse.ok) {
+      throw await deleteStuffResponse.json()
+    }
+    return await deleteStuffResponse.json()
   }
 
 }
