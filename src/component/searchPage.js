@@ -23,14 +23,13 @@ export default class SearchPage extends React.Component {
   }
 
   async componentDidMount() {
-
-  await this._submitSearch()
+    const params = {status: "1,2"}
+    await this._submitSearch(params)
   }
 
 
-
-  async _submitSearch() {
-    const params = {}
+  async _submitSearch(customParams) {
+    const params = customParams || {}
     // check if a title is set
     if (this.state.titleSearch !== '') {
       params.title = this.state.titleSearch
@@ -44,7 +43,7 @@ export default class SearchPage extends React.Component {
 
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-      console.log(results)
+    console.log(results)
     if (results.stuff.stuff.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
@@ -119,12 +118,12 @@ export default class SearchPage extends React.Component {
                     value={citySearch}
                     onChange={(event) => this.searchChange(event)}
                 />
-               </div>
-               <div className={"form__input"}>
-                  <select className={"form__category__select"} name="categorySearch" value={categorySearch}
+              </div>
+              <div className={"form__input"}>
+                <select className={"form__category__select"} name="categorySearch" value={categorySearch}
                         onChange={(event) => this.searchChange(event)}>
                   <option value={undefined} selected={true}>--Category--</option>
-                  <option value={CATEGORY_MISCELLANEOUS} >Miscellaneous</option>
+                  <option value={CATEGORY_MISCELLANEOUS}>Miscellaneous</option>
                   <option value={CATEGORY_MOUSE}>Mouse</option>
                   <option value={CATEGORY_MONITOR}>Monitor</option>
                   <option value={CATEGORY_SCREEN}>Screen</option>
@@ -137,44 +136,49 @@ export default class SearchPage extends React.Component {
                   <option value={CATEGORY_MOBILE}>Mobile</option>
                   <option value={CATEGORY_TABLET}>Tablets</option>
                 </select>
-               </div>
+              </div>
               {/*SEARCH BUTTON*/}
               <button className={"search__Form__button"}
                       onClick={(event) =>
                           this._submit(event)}>Search
               </button>
-          </form>
-        </div>
+            </form>
+          </div>
           {this.state.allStuff === undefined
               ? (<div className={"stuff_home"}>
 
                 <p>No stuff found</p>
               </div>)
-              : (<div className={'searchPage__stuff__table__container'}>
-                <table className={'searchPage__stuff__table'}>
-                  <thead className={"searchPage__stuff__table__head"}>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Price</th>
-                    <th>Price</th>
-                    <th>Price</th>
-                    <th>Update</th>
-                    <th>Show</th>
-                    <th>Delete</th>
+              : (
 
-                  </thead>
-                  {this.state.allStuff.map(oneOfMyStuff => {
-                    return (
-                        <CardStuff
-                            stuff = {oneOfMyStuff}
-                        />
-                    )
-                  })}
 
-                </table>
+                  <div className={'searchPage__stuff__table__container'}>
+                    <div>Number of stuff : {this.state.allStuff.length}</div>
+                    <table className={'searchPage__stuff__table'}>
+                      <thead className={"searchPage__stuff__table__head"}>
+                      <th>Id</th>
+                      <th>Title</th>
+                      <th>Price</th>
+                      <th>Price</th>
+                      <th>Price</th>
+                      <th>Price</th>
+                      <th>Update</th>
+                      <th>Show</th>
+                      <th>Delete</th>
 
-              </div>)}
+                      </thead>
+                      {this.state.allStuff.map(oneOfMyStuff => {
+                        return (
+                            <CardStuff
+                                stuff={oneOfMyStuff}
+                                onDeleteItem={()=>this._submitSearch({status:"1,2"})}
+                            />
+                        )
+                      })}
+
+                    </table>
+
+                  </div>)}
         </div>
     )
   }

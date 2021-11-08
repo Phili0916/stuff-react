@@ -50,7 +50,7 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
-    console.log("params", params)
+    // console.log("params", params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
     for(const [key, value] of Object.entries(params)){
@@ -72,10 +72,9 @@ class StuffApiClient {
     return await response.json()
   }
 
-  static async deleteStuffBy(jwt, params) {
-    console.log("delete stuff params", params)
+  static async deleteStuffBy(jwt, _id) {
 
-    const deleteStuffResponse = await fetch('http://localhost:9090/stuff/:id', {
+    const deleteStuffResponse = await fetch('http://localhost:9090/stuff/' +_id,{
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

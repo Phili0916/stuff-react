@@ -1,38 +1,66 @@
 import React from "react";
 import StuffApiClient from "../service/stuff.api.client";
+import PropTypes from "prop-types";
 
 export default class DeleteStuffPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      deleteTitle: undefined,
-      deleteCity: undefined,
-      deleteCategory: undefined,
-      allStuff: undefined
+      deleteStuff: undefined
+    }
+  }
 
+  static get propTypes() {
+    return {
+      stuff : PropTypes.object
     }
   }
 
   async _submitDeleteSearch () {
-    const params = {}
 
-    if(this.state.deleteTitle !== undefined) {
-      params.title = this.state.deleteTitle
-    }
-    if(this.state.deleteCity !== undefined) {
-      params.city = this.state.deleteCity
-    }
-    if(this.state.deleteCategory) {
-      params.category = this.state.deleteCategory
-    }
+    const deleteResults = await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')), this.props.stuff._id)
 
-    const deleteResults = await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-    console.log(deleteResults)
+    console.log('typeof', typeof deleteResults)
+
+    console.log('deleteResults', deleteResults)
+
+
+    console.log('this.props.stuff', this.props.deleteStuff)
+
+    const stuffAfterDelete = Object.entries(deleteResults).filter(deleteResult => deleteResult.props)
+
+    console.log('deleteResult', this.props._id)
+
+    await this.setState({deleteResults: stuffAfterDelete})
+
+
+    console.log('deleteResults', deleteResults)
+
+    // if(deleteResults.stuff.stuff.length > 1) {
+    //   await this.setState({allStuff: deleteResults.stuff.stuff})
+    // } else {
+    //   await this.setState({allStuff: undefined})
+    // }
+  }
+
+  // async deleteChange(event) {
+  //   const stuffAfterDelete = allStuff
+  // }
+
+  async _submit(event) {
+    event.preventDefault()
+    await this._submitDeleteSearch()
   }
 
 render() {
     return (
-        <div>Would You like to Delete?</div>
+        <div>
+          <button
+            type={"submit"}
+            onClick={(event) =>
+              this._submit(event)}>Delete
+          </button>
+        </div>
     )
 }
 }

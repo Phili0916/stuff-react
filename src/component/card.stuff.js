@@ -13,6 +13,7 @@ import {
 
 
 import StuffApiClient from "../service/stuff.api.client";
+import DeleteStuffPage from "../component/deleteStuffPage";
 
 
 export class CardStuff extends React.Component {
@@ -20,13 +21,16 @@ export class CardStuff extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: 'divers'
+      category: 'divers',
+      confirmDelete: false,
+      showHideButton: false
     }
   }
 
   static get propTypes() {
     return {
-      stuff : PropTypes.object
+      stuff: PropTypes.object,
+      onDeleteItem : PropTypes.func
     }
   }
 
@@ -88,12 +92,30 @@ export class CardStuff extends React.Component {
     this.props.history.push(destination)
   }
 
-  _update(){
+  _update() {
     console.log('navigate to one stuff in order to update it')
   }
 
+  async _deleteStuff() {
+    this.setState({confirmDelete: true})
+  }
+
+  async _confirmDelete(id) {
+    await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')),id)
+    this.setState({confirmDelete: false})
+    this.setState({showHideButton: true})
+    this.props.onDeleteItem()
+  }
+
+  hideButton() {
+    if(this._deleteStuff() === true) {
+      this.setState({showHideButton: true})
+
+    }
+  }
 
   render() {
+    // console.log('deleteStuff', deleteStuffPage)
     return (
         <tr className={"searchPage__stuff__table__body"}>
 
@@ -109,11 +131,35 @@ export class CardStuff extends React.Component {
           <td>4</td>
           <td>5</td>
           <td>6</td>
-          <td onClick={()=>this._navigate("/updateStuff")}>update</td>
+          <td onClick={() => this._navigate("/updateStuff")}>update</td>
           <td>show</td>
-          <td onClick={()=>this._navigate("/deleteStuff")}>delete</td>
+          {/*<td onClick={()=>this._navigate("/deleteStuff")}>delete</td>*/}
+          <td onClick={() => this._deleteStuff()}>
+            <>
+              <button
+                  type={"submit"}
+                  onClick={(event) =>
+                      this._deleteStuff(this.props.hideButton)}>Delete
+              </button>
+              {this.state.confirmDelete && (
+                  <button
+                      type={"submit"}
+                      onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm</button>
+              )}
+            </>
+
+          </td>
+          {/*<td>*/}
+          {/*  <>*/}
+          {/*    <DeleteStuffPage*/}
+          {/*    stuff={this.props.stuff}/>*/}
+          {/*  </>*/}
+
+
+          {/*</td>*/}
         </tr>
     )
   }
 }
+
 export default withRouter(CardStuff)

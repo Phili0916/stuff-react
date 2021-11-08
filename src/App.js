@@ -88,7 +88,7 @@ export default class App extends React.Component {
                       <Route path="/stuff" component={() => <ListStuff/>}/>
                       <Route path="/addStuff" component={() => <AddStuffPage/>}/>
                       <Route path="/user" exact={true} component={() => <CreateUser/>}/>
-                      <Route path="/deleteStuff" component={() => <DeleteStuffPage/>}/>
+                      {/*<Route path="/deleteStuff" component={() => <DeleteStuffPage/>}/>*/}
                       <Route path="/updateStuff" component={() => <UpdateStuffPage/>}/>
 
                     </Switch>
