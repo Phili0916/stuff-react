@@ -22,7 +22,6 @@ import Navbar from "./component/block/navbar";
 import SearchPage from "./component/searchPage";
 import CardStuff from "./component/card.stuff";
 import AddStuffPage from "./component/addStuffPage";
-import DeleteStuffPage from "./component/deleteStuffPage";
 import UpdateStuffPage from "./component/updateStuffPage";
 
 

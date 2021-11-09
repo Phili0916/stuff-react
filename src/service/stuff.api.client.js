@@ -72,6 +72,10 @@ class StuffApiClient {
     return await response.json()
   }
 
+  static async updateOneStuff(jwt, params) {
+    let url = new URL('')
+  }
+
   static async deleteStuffBy(jwt, _id) {
 
     const deleteStuffResponse = await fetch('http://localhost:9090/stuff/' +_id,{

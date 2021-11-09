@@ -34,7 +34,6 @@ export default class DeleteStuffPage extends React.Component {
     await this.setState({deleteResults: stuffAfterDelete})
 
 
-    console.log('deleteResults', deleteResults)
 
     // if(deleteResults.stuff.stuff.length > 1) {
     //   await this.setState({allStuff: deleteResults.stuff.stuff})
