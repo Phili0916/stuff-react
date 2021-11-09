@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {withRouter} from "react-router-dom";
-import SearchPage from "./searchPage";
 import {
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
   CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
@@ -23,7 +22,8 @@ export class CardStuff extends React.Component {
     this.state = {
       category: 'divers',
       confirmDelete: false,
-      showHideButton: false
+      showHideButton: true,
+      notDelete: false
     }
   }
 
@@ -34,10 +34,8 @@ export class CardStuff extends React.Component {
     }
   }
 
-
   componentDidMount() {
-    console.log(this.props)
-    // 0 1 12
+    console.log(this.componentDidMount)
 
     switch (parseInt(this.props.category)) {
       case CATEGORY_MISCELLANEOUS :
@@ -97,21 +95,27 @@ export class CardStuff extends React.Component {
   }
 
   async _deleteStuff() {
+    this.setState({showHideButton: false})
     this.setState({confirmDelete: true})
+    this.setState({notDelete: true})
+    console.log('click')
   }
+
 
   async _confirmDelete(id) {
     await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')),id)
-    this.setState({confirmDelete: false})
-    this.setState({showHideButton: true})
+    this.setState({confirmDelete: true})
+    this.setState({notDelete: true})
+    await this._deleteStuff()
     this.props.onDeleteItem()
   }
 
-  hideButton() {
-    if(this._deleteStuff() === true) {
-      this.setState({showHideButton: true})
-
-    }
+  async _confirmDeleteResponse() {
+    this.setState((prevState)=> {
+      prevState.confirmDelete = false
+      prevState.notDelete = false
+      return prevState
+    })
   }
 
   render() {
@@ -134,18 +138,27 @@ export class CardStuff extends React.Component {
           <td onClick={() => this._navigate("/updateStuff")}>update</td>
           <td>show</td>
           {/*<td onClick={()=>this._navigate("/deleteStuff")}>delete</td>*/}
-          <td onClick={() => this._deleteStuff()}>
+          <td>
             <>
+              {this.state.showHideButton ?
               <button
                   type={"submit"}
                   onClick={(event) =>
-                      this._deleteStuff(this.props.hideButton)}>Delete
-              </button>
-              {this.state.confirmDelete && (
-                  <button
-                      type={"submit"}
-                      onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm</button>
-              )}
+                      this._deleteStuff(this._deleteStuff)}>Delete
+              </button> : null }
+              {this.state.confirmDelete && this.state.notDelete ?
+                  <div className={"searchPage__stuff__table__confirmDelete__container"}>
+                      <button
+                          type={"submit"}
+                          onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm
+                      </button>
+                      <p>Are you sure you want to delete?</p>
+                    {this.state.notDelete ?
+                      <button
+                          type={"submit"}
+                          onClick={()=> this._confirmDeleteResponse(this._confirmDeleteResponse)}>No
+                      </button>: null}
+                  </div> : null}
             </>
 
           </td>
