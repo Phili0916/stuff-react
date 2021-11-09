@@ -114,6 +114,7 @@ export class CardStuff extends React.Component {
     this.setState((prevState)=> {
       prevState.confirmDelete = false
       prevState.notDelete = false
+      prevState.showHideButton = true
       return prevState
     })
   }
