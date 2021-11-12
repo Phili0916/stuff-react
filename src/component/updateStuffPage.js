@@ -1,13 +1,12 @@
 import React from 'react'
-import {withRouter} from "react-router-dom";
-import PropTypes from 'prop-types'
 import StuffApiClient from "../service/stuff.api.client";
+import PropTypes from 'prop-types'
 
 export default class UpdateStuffPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      updateStuff: undefined
+      stuffToUpdate: undefined
     }
         console.log('props in update', this.props.stuff)
   }
@@ -19,17 +18,20 @@ export default class UpdateStuffPage extends React.Component {
   }
 
   async componentDidMount() {
-    const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')))
-    console.log(updateResults)
-    if(updateResults) {
-      await this.setState({'updateResults': updateResults})
-    }
+    const array = window.location.pathname.split('/')
+    const id = array.pop()
+    const {stuff} = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {_id: id})
+    this.setState({stuffToUpdate : stuff.stuff[0]})
   }
 
   async _submitUpdates() {
     const body = {}
 
-    const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), this.props.stuff.id)
+
+    if(updateResults) {
+      await this.setState({'updateResults': updateResults})
+    }
+    const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), this.props.stuff.id, body)
 
     console.log(updateResults)
   }
@@ -39,12 +41,13 @@ export default class UpdateStuffPage extends React.Component {
     await this._submitUpdates()
   }
 
+
   // async updateStuffSearch() {
   //   const updateResults =
   // }
 
   render() {
-    console.log(this.props.stuff)
+    console.log(this.state.stuffToUpdate)
     return(
         <div className={"updateStuff__form__container"}>
           <div className={"updateStuff__form__titleBlock"}>

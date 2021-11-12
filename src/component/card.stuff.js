@@ -5,6 +5,7 @@ import {
   Route,
   Switch
 } from "react-router-dom";
+// import {updateOneStuff} from "../../../device/Controllers/stuff_controller";
 import {withRouter} from "react-router-dom";
 import {
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
@@ -156,8 +157,10 @@ export class CardStuff extends React.Component {
               <BrowserRouter>
                 <button
                     type={"submit"}
-                    onClick={() => this._navigate("/updateStuff")}
-                    render={(props) => <UpdateStuffPage {...props} stuff={this.props.stuff}/>} >Update
+                    onClick={() => this._navigate("/updateStuff/" + this.props.stuff._id)}
+                    // render={(props) => <UpdateStuffPage {...props} stuff={this.props.stuff}/>}
+                >
+                  Update
                 </button>
               </BrowserRouter>
           </td>

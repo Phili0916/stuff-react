@@ -46,7 +46,7 @@ class StuffApiClient {
   /**
    *
    * @param {string} jwt
-   * @param {object} object
+   * @param {object} params
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
@@ -82,6 +82,10 @@ class StuffApiClient {
       },
       body: JSON.stringify(body)
     })
+    if(!updateStuffResponse.ok) {
+      throw await updateStuffResponse.json()
+    }
+    return await updateStuffResponse.json()
   }
 
   static async deleteStuffBy(jwt, _id) {

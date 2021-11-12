@@ -44,7 +44,7 @@ export default class SearchPage extends React.Component {
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
     console.log(results)
-    if (results.stuff.stuff.length >= 1) {
+    if (results.stuff.stuff?.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
       await this.setState({allStuff: undefined})
