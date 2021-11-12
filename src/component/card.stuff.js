@@ -29,9 +29,11 @@ export class CardStuff extends React.Component {
       category: 'divers',
       confirmDelete: false,
       showDeleteButton: true,
-      notDelete: false
+      notDelete: false,
     }
+    console.log('card stuff', this.props.stuff)
   }
+
 
   static get propTypes() {
     return {
@@ -42,6 +44,7 @@ export class CardStuff extends React.Component {
 
   componentDidMount() {
     console.log(this.componentDidMount)
+
 
     switch (parseInt(this.props.category)) {
       case CATEGORY_MISCELLANEOUS :
@@ -90,7 +93,10 @@ export class CardStuff extends React.Component {
 
   _navigate(destination) {
     this.props.history.push(destination)
-    let stuff = this.props.stuff
+    console.log('history', this.props.history)
+    const stuff = this.props.stuff
+    console.log('stuff', stuff)
+    return stuff
   }
 
 

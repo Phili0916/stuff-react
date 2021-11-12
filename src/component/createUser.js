@@ -70,7 +70,7 @@ export default class CreateUser extends React.Component {
     return (
         <div className={'user__form__container'}>
           <div className={'user__form__block'}>
-            <h2 className={'userRegistrationForm_title'}>Would you like to Register?</h2>
+            <h2 className={'userRegistrationForm__title'}>Would you like to Register?</h2>
           </div>
           <form>
             <div className={"user__form__input"}>

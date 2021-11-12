@@ -72,8 +72,16 @@ class StuffApiClient {
     return await response.json()
   }
 
-  static async updateOneStuff(jwt, params) {
-    let url = new URL('')
+  static async updateOneStuff(jwt, _id, body) {
+    console.log('jwt', jwt)
+    const updateStuffResponse =  await fetch('http://localhost:9090/stuff/' +_id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': jwt
+      },
+      body: JSON.stringify(body)
+    })
   }
 
   static async deleteStuffBy(jwt, _id) {
