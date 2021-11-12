@@ -18,8 +18,6 @@ import {
 
 
 import StuffApiClient from "../service/stuff.api.client";
-import UpdateStuffPage from "./updateStuffPage";
-
 
 
 export class CardStuff extends React.Component {
@@ -32,7 +30,7 @@ export class CardStuff extends React.Component {
       showDeleteButton: true,
       notDelete: false,
     }
-    console.log('card stuff', this.props.stuff)
+    console.log('this.props.stuff', this.props.stuff)
   }
 
 
@@ -44,9 +42,7 @@ export class CardStuff extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.componentDidMount)
-
-
+    // console.log(this.componentDidMount)
     switch (parseInt(this.props.category)) {
       case CATEGORY_MISCELLANEOUS :
         this.setState({category: 'Divers'})
@@ -94,9 +90,7 @@ export class CardStuff extends React.Component {
 
   _navigate(destination) {
     this.props.history.push(destination)
-    console.log('history', this.props.history)
     const stuff = this.props.stuff
-    console.log('stuff', stuff)
     return stuff
   }
 
@@ -150,9 +144,18 @@ export class CardStuff extends React.Component {
           <td>
             {this.props.stuff.price}
           </td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
+          <td>
+            {this.props.stuff.category}
+          </td>
+          <td>
+            {this.props.stuff.status}
+          </td>
+          <td>
+            {this.props.stuff.description}
+          </td>
+          <td>
+            {this.props.stuff.city}
+          </td>
           <td>
               <BrowserRouter>
                 <button

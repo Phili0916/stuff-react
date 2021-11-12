@@ -159,9 +159,10 @@ export default class SearchPage extends React.Component {
                       <th>Id</th>
                       <th>Title</th>
                       <th>Price</th>
-                      <th>Price</th>
-                      <th>Price</th>
-                      <th>Price</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Description</th>
+                      <th>City</th>
                       <th>Update</th>
                       <th>Show</th>
                       <th>Delete</th>

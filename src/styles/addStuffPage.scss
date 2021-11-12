@@ -7,7 +7,6 @@
   justify-content: center;
   margin: 20px;
   padding: 10px;
-  background-color: pink;
 }
 
 .addStuff__form__container {
@@ -20,13 +19,14 @@
   align-items: center;
   max-width: 80%;
   width: 100%;
-  background-color: $bg-form;
+  background-color: #6495EDFF;
   padding: 25px 30px;
   border-radius: 5px;
 
   .addStuff__form__title {
     font-size: 2em;
-    text-align: center
+    text-align: center;
+    color: $my_blue;
   }
 
   .addStuff__form__container__input {
@@ -39,9 +39,10 @@
     .addStuff__form__label__owner,
     .addStuff__form__label__status,
     .addStuff__form__label__reference,
+    .add__form__label__city,
     {
       align-items: flex-start;
-      color: red;
+      color: #F5F5F5FF;
       margin-bottom: 100px;
     }
 

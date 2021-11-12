@@ -24,7 +24,8 @@ export default class AddStuffPage extends React.Component {
       addOwnerId: 0,
       addReference: undefined,
       addStatus: undefined,
-      // userSelect: undefined,
+      userSelect: undefined,
+      addCity: undefined,
       saveSuccess: false,
       saveError: false,
       users: []
@@ -44,9 +45,6 @@ export default class AddStuffPage extends React.Component {
     console.log('this.state.addOwnerId', this.state.addOwnerId)
   }
 
-  async toggleUserChange() {
-
-  }
 
   async _submit(event) {
     event.preventDefault()
@@ -73,6 +71,9 @@ export default class AddStuffPage extends React.Component {
     if (this.state.addStatus !== undefined) {
       body.status = Number.parseInt(this.state.addStatus)
     }
+    if (this.state.addCity !== undefined) {
+      body.city = this.state.addCity
+    }
     try {
       const results = await StuffApiClient.createPost(JSON.parse(localStorage.getItem('jwt')), body)
       console.log('results', results)
@@ -87,8 +88,6 @@ export default class AddStuffPage extends React.Component {
       this.setState({saveError: true})
       console.log('this.setState.saveError', this.state.saveError)
     }
-
-    // await this.toggleUserChange()
   }
 
   render() {
@@ -102,6 +101,7 @@ export default class AddStuffPage extends React.Component {
       addOwnerId,
       addReference,
       addStatus,
+      addCity,
       saveError
     } = this.state
 
@@ -215,16 +215,25 @@ export default class AddStuffPage extends React.Component {
                 <div className={"addStuff__form__container__input"}>
                   <label className={"addStuff__form__label__reference"} htmlFor={"addReference"}>Choose a
                     Reference </label>
-                  <input
-                      className={"addStuff__form__input__textBox"}
-                      name={"addReference"}
-                      type="text"
-                      placeholder={"Enter the Reference"}
-                      value={addReference}
-                      onChange={(event) => this.addStuffChange(event)}
-                  />
-
-
+                    <input
+                        className={"addStuff__form__input__textBox"}
+                        name={"addReference"}
+                        type="text"
+                        placeholder={"Enter the Reference"}
+                        value={addReference}
+                        onChange={(event) => this.addStuffChange(event)}
+                    />
+                </div>
+                <div className={"addStuff__form__container__input"}>
+                  <label className={"add__form__label__city"} htmlFor={"addCity"}>Choose a City</label>
+                    <input
+                        className={"addStuff__form__input__textBox"}
+                        name={"addCity"}
+                        type="text"
+                        placeholder={"Enter a city"}
+                        value={addCity}
+                        onChange={(event) => this.addStuffChange(event)}
+                    />
                 </div>
               </div>
               {/*{this.state.saveError === true && this.state.addReference === undefined*/}
