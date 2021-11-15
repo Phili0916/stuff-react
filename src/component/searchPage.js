@@ -9,6 +9,7 @@ import {
   CATEGORY_MOUSE,
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
 } from "../helper/constants";
+import UserApiClient from "../service/user.api.client";
 
 export default class SearchPage extends React.Component {
   constructor(props) {
@@ -18,12 +19,15 @@ export default class SearchPage extends React.Component {
       titleSearch: '',
       citySearch: '',
       categorySearch: undefined,
-      allStuff: undefined
+      allStuff: undefined,
+      allUsers: []
     }
   }
 
   async componentDidMount() {
+    const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
     const params = {status: "1,2"}
+    this.setState({allUsers: allUsers})
     await this._submitSearch(params)
   }
 
@@ -49,15 +53,6 @@ export default class SearchPage extends React.Component {
     } else {
       await this.setState({allStuff: undefined})
     }
-
-
-    // return results.stuff
-
-    // let filterTitles = Array.of(results).filter(result => {
-    //   //
-    //   console.log('result.stuff', result.stuff[0].title)
-    //   return result.stuff[0].title.toLowerCase().indexOf(this.state.search?.toLowerCase()) !== -1
-    // })
   }
 
   async searchChange(event) {
@@ -168,10 +163,13 @@ export default class SearchPage extends React.Component {
                       <th>Delete</th>
 
                       </thead>
-                      {this.state.allStuff.map(oneOfMyStuff => {
+                      {
+                        this.state.allStuff.map(oneOfMyStuff => {
+
                         return (
                             <CardStuff
                                 stuff={oneOfMyStuff}
+
                                 onDeleteItem={()=>this._submitSearch({status:"1,2"})}
                             />
                         )

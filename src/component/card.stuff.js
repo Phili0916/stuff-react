@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import PropTypes, {object} from 'prop-types'
 import {
   BrowserRouter,
   Route,
@@ -16,8 +16,8 @@ import {
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
 } from "../helper/constants";
 
-
 import StuffApiClient from "../service/stuff.api.client";
+import UserApiClient from "../service/user.api.client";
 
 
 export class CardStuff extends React.Component {
@@ -29,8 +29,9 @@ export class CardStuff extends React.Component {
       confirmDelete: false,
       showDeleteButton: true,
       notDelete: false,
+      users: {}
     }
-    console.log('this.props.stuff', this.props.stuff)
+    console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
   }
 
 
@@ -41,8 +42,12 @@ export class CardStuff extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // console.log(this.componentDidMount)
+
+  async componentDidMount() {
+    const user= await UserApiClient.getUser(this.props.stuff.ownerId, JSON.parse(localStorage.getItem('jwt')))
+    console.log(user, 'USERRRRRRRRS')
+    this.setState({user: user.user})
+
     switch (parseInt(this.props.category)) {
       case CATEGORY_MISCELLANEOUS :
         this.setState({category: 'Divers'})
@@ -88,16 +93,22 @@ export class CardStuff extends React.Component {
     }
   }
 
+  // async _getUser(event) {
+  //   const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
+  //   this.setState({users: allUsers.users})
+  //   this.state.users.map(user => {
+  //     user = {user}
+  //     console.log('user', user)
+  //     return user
+  //   })
+  // }
+
   _navigate(destination) {
     this.props.history.push(destination)
     const stuff = this.props.stuff
     return stuff
   }
 
-
-  _update() {
-    console.log('navigate to one stuff in order to update it')
-  }
 
   async _deleteStuff() {
     this.setState({showDeleteButton: false})
@@ -132,11 +143,13 @@ export class CardStuff extends React.Component {
   }
 
   render() {
+    const users = this.state
+    const user = this.state
+    console.log('user', this.state.user?.firstName)
     return (
         <tr className={"searchPage__stuff__table__body"}>
-
           <td>
-            {this.props.stuff._id}
+            {this.state.user?.firstName}
           </td>
           <td>
             {this.props.stuff.title}
@@ -154,7 +167,7 @@ export class CardStuff extends React.Component {
             {this.props.stuff.description}
           </td>
           <td>
-            {this.props.stuff.city}
+            {this.props.stuff.localisation?.city ? this.props.stuff.localisation?.city: 'MIAMI'}
           </td>
           <td>
               <BrowserRouter>

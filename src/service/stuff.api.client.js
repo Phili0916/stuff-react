@@ -50,7 +50,7 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
-    // console.log("params", params)
+    console.log("params", params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
     for(const [key, value] of Object.entries(params)){

@@ -35,7 +35,6 @@ export default class AddStuffPage extends React.Component {
   async componentDidMount() {
     const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
     this.setState({users: allUsers.users})
-
   }
 
   async addStuffChange(event) {
@@ -72,7 +71,10 @@ export default class AddStuffPage extends React.Component {
       body.status = Number.parseInt(this.state.addStatus)
     }
     if (this.state.addCity !== undefined) {
-      body.city = this.state.addCity
+    /*  body.localisation = {}
+      body.localisation.city = this.state.addCity*/
+
+      body.localisation = {city: this.state.addCity}
     }
     try {
       const results = await StuffApiClient.createPost(JSON.parse(localStorage.getItem('jwt')), body)
@@ -264,7 +266,8 @@ export default class AddStuffPage extends React.Component {
             this.state.addCategory !== undefined &&
             this.state.addPrice !== undefined &&
             this.state.addOwnerId !== undefined &&
-            this.state.addReference !== undefined
+            this.state.addReference !== undefined &&
+            this.state.addCity !== undefined
                 ? (<div className={"addStuff__successForm"}>Your Stuff has been submitted successfully</div>)
                 : null}
 
