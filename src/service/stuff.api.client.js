@@ -1,8 +1,8 @@
 class StuffApiClient {
 
   static async createPost(jwt, body) {
-    console.log('body', body)
-    console.log('jwt', jwt)
+    // console.log('body', body)
+    // console.log('jwt', jwt)
 
     const response = await fetch('http://localhost:9090/stuff/',{
       method: 'POST',
@@ -12,7 +12,7 @@ class StuffApiClient {
       },
       body: JSON.stringify(body)
     })
-    console.log('postResponse', response)
+    // console.log('postResponse', response)
     if (!response.ok) {
       throw await response.json()
     }
@@ -21,8 +21,8 @@ class StuffApiClient {
 
   static async getAllStuff(jwt) {
 
-    console.log("###params")
-    console.log(jwt);
+    // console.log("###params")
+    // console.log(jwt);
 
     const response = await fetch('http://localhost:9090/stuff/', {
       method: 'GET',
@@ -31,8 +31,8 @@ class StuffApiClient {
         'authorization': jwt
       }
     })
-    console.log("####response in stuff request")
-    console.log(response)
+    // console.log("####response in stuff request")
+    // console.log(response)
     // const something = await response.json()
     // console.log("###something");
     // console.log(something)
@@ -50,7 +50,7 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
-    console.log("params", params)
+    // console.log("params", params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
     for(const [key, value] of Object.entries(params)){
@@ -73,7 +73,7 @@ class StuffApiClient {
   }
 
   static async updateOneStuff(jwt, _id, body) {
-    console.log('jwt', jwt)
+    // console.log('jwt', jwt)
     const updateStuffResponse =  await fetch('http://localhost:9090/stuff/' +_id, {
       method: 'PUT',
       headers: {

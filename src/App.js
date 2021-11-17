@@ -23,6 +23,7 @@ import SearchPage from "./component/searchPage";
 import CardStuff from "./component/card.stuff";
 import AddStuffPage from "./component/addStuffPage";
 import UpdateStuffPage from "./component/updateStuffPage";
+import StuffApiClient from "./service/stuff.api.client";
 
 
 
@@ -32,7 +33,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: undefined
+      user: undefined,
+      stuff: {}
     }
   }
 
@@ -41,6 +43,12 @@ export default class App extends React.Component {
     localStorage.setItem("jwt", JSON.stringify(jwt))
     if (user) {
       await this.setState({user: user})
+    }
+  }
+
+  async _getStuff( stuff) {
+    if (stuff) {
+      await this.setState({stuff: stuff})
     }
   }
 
@@ -60,6 +68,14 @@ export default class App extends React.Component {
     if (JSON.parse(localStorage.getItem('user'))) {
       await this.setState({user: user})
     }
+    const stuff = await StuffApiClient.getAllStuff(JSON.parse(localStorage.getItem('jwt')))
+    if(stuff) {
+      await this.setState({'stuff': stuff})
+    }
+    if(JSON.parse(localStorage.getItem('stuff'))) {
+      await this.setState({stuff: stuff})
+      console.log('stuff', stuff)
+    }
   }
 
   greet() {
@@ -68,6 +84,7 @@ export default class App extends React.Component {
 
 
   render() {
+    console.log('allStuff',this.state.stuff)
     return (
         <>
           {this.state.user !== undefined
@@ -88,7 +105,8 @@ export default class App extends React.Component {
                       <Route path="/addStuff" component={() => <AddStuffPage/>}/>
                       <Route path="/user" exact={true} component={() => <CreateUser/>}/>
                       {/*<Route path="/deleteStuff" component={() => <DeleteStuffPage/>}/>*/}
-                      <Route path="/updateStuff" component={() => <UpdateStuffPage />}/>
+
+                      <Route path="/updateStuff" component={() => <UpdateStuffPage allStuff={this.state.stuff} onChange={()=> this._getStuff()}/>}/>
 
                     </Switch>
                   </BrowserRouter>

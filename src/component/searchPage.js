@@ -47,7 +47,7 @@ export default class SearchPage extends React.Component {
 
 
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-    console.log(results)
+    // console.log('results', results)
     if (results.stuff.stuff?.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
@@ -59,9 +59,9 @@ export default class SearchPage extends React.Component {
     await this.setState({
       [event.target.name]: event.target.value
     })
-    console.log('event', event)
-    console.log('this.state.categorySearch', this.state.categorySearch)
-    console.log('citySearch', this.state.citySearch)
+    // console.log('event', event)
+    // console.log('this.state.categorySearch', this.state.categorySearch)
+    // console.log('citySearch', this.state.citySearch)
   }
 
 
@@ -83,8 +83,8 @@ export default class SearchPage extends React.Component {
   }
 
   render() {
-    console.log('this.state.allStuff')
-    console.log(this.state.allStuff)
+    // console.log('this.state.allStuff')
+    // console.log(this.state.allStuff)
     // console.log('titleSearch', this.state.titleSearch)
     // console.log("citySearch", this.state.citySearch)
     const {titleSearch, citySearch, categorySearch} = this.state

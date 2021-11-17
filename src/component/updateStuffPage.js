@@ -9,6 +9,7 @@ import {
   CATEGORY_MOUSE,
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET, STATUS_BROKEN, STATUS_LOST, STATUS_NEW, STATUS_USED
 } from "../helper/constants";
+import UserApiClient from "../service/user.api.client";
 
 export default class UpdateStuffPage extends React.Component {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class UpdateStuffPage extends React.Component {
       stuffToUpdate: undefined,
       updatedStuff: undefined,
       updateSuccess: false,
-      updateError: false
+      updateError: false,
+      stuff: undefined,
+      allUsers: []
     }
   }
 
@@ -30,10 +33,24 @@ export default class UpdateStuffPage extends React.Component {
   async componentDidMount() {
     const array = window.location.pathname.split('/')
     const id = array.pop()
-    const {stuff} = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {_id: id})
-    console.log(stuff.stuff[0]._id)
-    this.setState({id : stuff.stuff[0]._id})
-    this.setState({stuffToUpdate : stuff.stuff[0]})
+    const params = {ownerId: ""}
+    const stuff = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {_id: id})
+    this.setState({id : stuff.stuff?._id})
+    this.setState({stuffToUpdate : stuff.stuff.stuff[0]})
+    const ownerIdResults = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {params })
+    console.log('results', ownerIdResults.stuff.stuff[0].ownerId)
+    this.setState({allUsers: ownerIdResults})
+    // const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
+    // this.setState({allUsers: allUsers.users})
+    // console.log('allUsers', allUsers)
+    // console.log('stuff', typeof stuff)
+    // this.setState({stuff : stuff.stuff.stuff[0]})
+    // this.setState({ownerId: stuff.stuff.stuff[0]})
+    // console.log('ownerId', ownerId)
+    // const user= await UserApiClient.getUser(this.props.stuff, JSON.parse(localStorage.getItem('jwt')))
+    // console.log(user, 'USERRRRRRRRS')
+    // console.log("this.props.allStuff.stuff.ownerId", this.props.allStuff.stuff.stuff[0].ownerId)
+    console.log(stuff)
   }
 
   // async _updateStuffChange(event) {
@@ -47,7 +64,6 @@ export default class UpdateStuffPage extends React.Component {
     event.preventDefault()
     // await this._updateStuffChange(event)
     const body = this.state.stuffToUpdate
-
     if(this.state.stuffToUpdate !== event.target.value) {
       this.state.stuffToUpdate[event.target.name] = event.target.value
       this.setState({updatedStuff : this.state.stuffToUpdate})
@@ -55,26 +71,39 @@ export default class UpdateStuffPage extends React.Component {
     }
     try {
       const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), this.state.id, body)
-      this.setState({updateSuccess: true})
-      console.log('updateResults', updateResults)
+      if(updateResults) {
+        this.setState({updateSuccess: true})
+        console.log(updateResults)
+      }
     } catch(e) {
       const error = e.errors
       console.log(error)
       this.setState({updateError: true})
     }
-
   }
 
   render() {
-    console.log('this.state.stuffToUpdate')
-    console.log(this.state.stuffToUpdate)
-
+// console.log(this.state.allUsers)
+console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
     return(
         this.state.stuffToUpdate ?
             (
                 <>
                   <div className={"updateStuff__form__container__input"}>
-                    <label className={"updateStuff__form__label__title"} htmlFor={"updateTitle"}>Title
+                    <label className={"updateStuff__form__label__ownerId"}
+                           htmlFor={"updateOwnerId"}>OwnerID
+                    </label>
+                    <select className={"updateStuff__userChange__select"} name={"ownerId"} value={this.state.stuffToUpdate.ownerId}
+                            onChange={(event) => this._submitUpdate(event)}>
+                      <option name={"ownerId"} value="0">Nobody</option>
+                      {Object.entries(this.state.allUsers).map(user =>
+                          <option value={this.state.stuffToUpdate.ownerId}>{user?.firstName}</option>
+                      )}
+                    </select>
+                  </div>
+                  <div className={"updateStuff__form__container__input"}>
+                    <label className={"updateStuff__form__label__title"}
+                           htmlFor={"updateTitle"}>Title
                     </label>
                       <input
                           className={"updateStuff__form__input__title"}
@@ -86,7 +115,8 @@ export default class UpdateStuffPage extends React.Component {
                       />
                   </div>
                   <div className={"updateStuff__form__container__input"}>
-                    <label className={"updateStuff__form__label__price"} htmlFor={"updatePrice"}>Price
+                    <label className={"updateStuff__form__label__price"}
+                           htmlFor={"updatePrice"}>Price
                     </label>
                       <input
                           className={"updateStuff__form__input__title"}
@@ -98,7 +128,9 @@ export default class UpdateStuffPage extends React.Component {
                       />
                   </div>
                   <div className={"updateStuff__form__container__input"}>
-                    <label className={"updateStuff__form__label__category"} htmlFor={"updateCategory"}>Category</label>
+                    <label className={"updateStuff__form__label__category"}
+                           htmlFor={"updateCategory"}>Category
+                    </label>
                     <select className={"updateStuff__form__category__select"} name={"category"} value={this.state.stuffToUpdate.category}
                             onChange={(event) => this._submitUpdate(event)}>
                       <option value={undefined} selected={true}>--Category--</option>
@@ -117,7 +149,9 @@ export default class UpdateStuffPage extends React.Component {
                     </select>
                   </div>
                   <div>
-                    <label className={"updateStuff__form__label__status"} htmlFor={"updateStatus"}>Update Status </label>
+                    <label className={"updateStuff__form__label__status"}
+                           htmlFor={"updateStatus"}>Update Status
+                    </label>
                     <select
                         className={"updateStuff__form__input__textBox"}
                         name={"status"}
@@ -131,8 +165,31 @@ export default class UpdateStuffPage extends React.Component {
                       <option value={STATUS_BROKEN}>Status Broken</option>
                     </select>
                   </div>
-                  <div className={"updateStuff__from__label__description"}>
-
+                  <div className={"updateStuff__form__label__input"}>
+                    <label className={"updateStuff__form__label__description"}
+                           htmlFor={"updateDescription"}>Description
+                    </label>
+                      <input
+                          className={"updateStuff__form__input__textBox"}
+                          name={"description"}
+                          type="text"
+                          placeholder={"Enter the Stuff's Description"}
+                          value={this.state.stuffToUpdate.description}
+                          onChange={(event) => this._submitUpdate(event)}
+                      />
+                  </div>
+                  <div className={"updateStuff__form__label__input"}>
+                    <label className={"updateStuff__form__label__city"}
+                           htmlFor={"updateCity"}>City
+                    </label>
+                      <input
+                        className={"updateStuff__form__input__textBox"}
+                        name={"localisation"}
+                        type="text"
+                        placeholder={"Enter a City"}
+                        value={this.state.stuffToUpdate.localisation?.city}
+                        onChange={(event)=> this._submitUpdate(event)}
+                      />
                   </div>
                   <button onClick={(event)=>this._submitUpdate(event)}>
                     Update

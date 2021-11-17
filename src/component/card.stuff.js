@@ -31,7 +31,7 @@ export class CardStuff extends React.Component {
       notDelete: false,
       users: {}
     }
-    console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
+    // console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
   }
 
 
@@ -45,7 +45,7 @@ export class CardStuff extends React.Component {
 
   async componentDidMount() {
     const user= await UserApiClient.getUser(this.props.stuff.ownerId, JSON.parse(localStorage.getItem('jwt')))
-    console.log(user, 'USERRRRRRRRS')
+    // console.log(user, 'USERRRRRRRRS')
     this.setState({user: user.user})
 
     switch (parseInt(this.props.category)) {
@@ -145,7 +145,7 @@ export class CardStuff extends React.Component {
   render() {
     const users = this.state
     const user = this.state
-    console.log('user', this.state.user?.firstName)
+    // console.log('user', this.state.user?.firstName)
     return (
         <tr className={"searchPage__stuff__table__body"}>
           <td>
