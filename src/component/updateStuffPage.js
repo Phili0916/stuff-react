@@ -40,7 +40,18 @@ export default class UpdateStuffPage extends React.Component {
     this.setState({stuffToUpdate : stuff.stuff.stuff[0]})
     const ownerIdResults = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {params })
     console.log('results', ownerIdResults.stuff.stuff)
-    this.setState({allUsers: ownerIdResults})
+    //this.setState({allUsers: ownerIdResults.stuff.stuff})
+
+
+      ownerIdResults.stuff.stuff.filter(user=> user.ownerId).map(async _user=> {
+      const {user} = await UserApiClient.getUser(_user.ownerId, JSON.parse(localStorage.getItem('jwt')))
+        this.setState(prevState=> {
+          if(!prevState.allUsers.map(user=> user.firstName).includes(user.firstName)) {
+            prevState.allUsers.push(user)
+          }
+          return prevState
+        })
+    })
     // const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
     // this.setState({allUsers: allUsers.users})
     // console.log('allUsers', allUsers)
@@ -51,7 +62,7 @@ export default class UpdateStuffPage extends React.Component {
     // const user= await UserApiClient.getUser(this.props.stuff, JSON.parse(localStorage.getItem('jwt')))
     // console.log(user, 'USERRRRRRRRS')
     // console.log("this.props.allStuff.stuff.ownerId", this.props.allStuff.stuff.stuff[0].ownerId)
-    console.log(stuff)
+    // console.log(stuff)
   }
 
   // async _updateStuffChange(event) {
@@ -66,8 +77,8 @@ export default class UpdateStuffPage extends React.Component {
     // await this._updateStuffChange(event)
     const body = this.state.stuffToUpdate
     const id = this.state.stuffToUpdate._id
-    console.log('id', id)
-    console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
+    // console.log('id', id)
+    // console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
     if(this.state.stuffToUpdate !== event.target.value) {
       this.state.stuffToUpdate[event.target.name] = event.target.value
       this.setState({updatedStuff : this.state.stuffToUpdate})
@@ -90,6 +101,16 @@ export default class UpdateStuffPage extends React.Component {
 // console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
     // console.log('this.state.stuffToUpdate.description', this.state.stuffToUpdate)
     console.log('this.state.updatedStuff', this.state.updatedStuff)
+    console.log('allusers', this.state.allUsers)
+    const testObject = Object.entries(this.state.allUsers).map(user =>
+      user[1]
+    )
+    const testObject2 = Object.values(this.state.allUsers).map(user =>
+        user?.ownerId
+    )
+    console.log(testObject, testObject2)
+
+
     return(
         this.state.stuffToUpdate ?
             (
@@ -101,7 +122,7 @@ export default class UpdateStuffPage extends React.Component {
                     <select className={"updateStuff__userChange__select"} name={"ownerId"} value={this.state.stuffToUpdate.ownerId}
                             onChange={(event) => this._submitUpdate(event)}>
                       <option name={"ownerId"} value="0">Nobody</option>
-                      {Object.entries(this.state.allUsers).map(user =>
+                      {this.state.allUsers.map(user =>
                           <option value={this.state.stuffToUpdate.ownerId}>{user?.firstName}</option>
                       )}
                     </select>

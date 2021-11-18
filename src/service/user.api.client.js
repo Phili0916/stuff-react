@@ -52,7 +52,7 @@ class UserApiClient {
     }
 
    static async getUser(userId, token) {
-    const response = await fetch(`http://localhost:9090/auth/getUser/?id=`+userId, {
+    const response = await fetch(`http://localhost:9090/auth/getUser/`+ userId, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
