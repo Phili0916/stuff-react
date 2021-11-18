@@ -20,7 +20,8 @@ export default class UpdateStuffPage extends React.Component {
       updateSuccess: false,
       updateError: false,
       stuff: undefined,
-      allUsers: []
+      allUsers: [],
+      id: undefined
     }
   }
 
@@ -38,7 +39,7 @@ export default class UpdateStuffPage extends React.Component {
     this.setState({id : stuff.stuff?._id})
     this.setState({stuffToUpdate : stuff.stuff.stuff[0]})
     const ownerIdResults = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {params })
-    console.log('results', ownerIdResults.stuff.stuff[0].ownerId)
+    console.log('results', ownerIdResults.stuff.stuff)
     this.setState({allUsers: ownerIdResults})
     // const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
     // this.setState({allUsers: allUsers.users})
@@ -64,13 +65,15 @@ export default class UpdateStuffPage extends React.Component {
     event.preventDefault()
     // await this._updateStuffChange(event)
     const body = this.state.stuffToUpdate
+    const id = this.state.stuffToUpdate._id
+    console.log('id', id)
+    console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
     if(this.state.stuffToUpdate !== event.target.value) {
       this.state.stuffToUpdate[event.target.name] = event.target.value
       this.setState({updatedStuff : this.state.stuffToUpdate})
-      console.log(this.state.updatedStuff)
     }
     try {
-      const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), this.state.id, body)
+      const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), id, body)
       if(updateResults) {
         this.setState({updateSuccess: true})
         console.log(updateResults)
@@ -84,7 +87,9 @@ export default class UpdateStuffPage extends React.Component {
 
   render() {
 // console.log(this.state.allUsers)
-console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
+// console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
+    // console.log('this.state.stuffToUpdate.description', this.state.stuffToUpdate)
+    console.log('this.state.updatedStuff', this.state.updatedStuff)
     return(
         this.state.stuffToUpdate ?
             (

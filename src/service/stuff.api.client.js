@@ -50,7 +50,7 @@ class StuffApiClient {
    * @returns {Promise<void>}
    */
   static async getStuffBy(jwt, params) {
-    // console.log("params", params)
+    console.log("params", params)
     let url = new URL('http://localhost:9090/stuff/criterion/')
 
     for(const [key, value] of Object.entries(params)){
@@ -73,13 +73,16 @@ class StuffApiClient {
   }
 
   static async updateOneStuff(jwt, _id, body) {
-    // console.log('jwt', jwt)
+    console.log('jwt', jwt)
+    console.log('body', body)
+    console.log('_id', _id)
     const updateStuffResponse =  await fetch('http://localhost:9090/stuff/' +_id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'authorization': jwt
       },
+
       body: JSON.stringify(body)
     })
     if(!updateStuffResponse.ok) {
