@@ -13,7 +13,7 @@ import {
   CATEGORY_MISCELLANEOUS, CATEGORY_MOBILE,
   CATEGORY_MONITOR,
   CATEGORY_MOUSE,
-  CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
+  CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET, STATUS_BROKEN, STATUS_LOST, STATUS_NEW, STATUS_USED
 } from "../helper/constants";
 
 import StuffApiClient from "../service/stuff.api.client";
@@ -25,13 +25,15 @@ export class CardStuff extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: 'divers',
+      category: 'Divers',
+      status: 'New Status',
       confirmDelete: false,
       showDeleteButton: true,
       notDelete: false,
       users: {}
     }
     // console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
+    console.log('category', this.props.stuff.category)
   }
 
 
@@ -48,7 +50,10 @@ export class CardStuff extends React.Component {
     // console.log(user, 'USERRRRRRRRS')
     this.setState({user: user.user})
 
-    switch (parseInt(this.props.category)) {
+    // this.setState({category: this.props.category})
+    // console.log('category', this.state.category)
+    // console.log('typeof', typeof parseInt(this.props.stuff.category))
+    switch (parseInt(this.props.stuff.category)) {
       case CATEGORY_MISCELLANEOUS :
         this.setState({category: 'Divers'})
         // console.log("##thisCard");
@@ -89,7 +94,23 @@ export class CardStuff extends React.Component {
         break
       default :
         this.setState({category: 'other'})
-        return
+    }
+    // console.log('this.props.stuff.status', typeof this.props.stuff.status)
+    switch (parseInt(this.props.stuff.status)) {
+      case STATUS_NEW  :
+        this.setState({status: 'New Status'})
+        break
+      case STATUS_USED :
+        this.setState({status: 'Old Status'})
+        break
+      case STATUS_LOST :
+        this.setState({status: 'Lost Status'})
+        break
+      case STATUS_BROKEN :
+        this.setState({status: 'Broken Status'})
+        break
+      default :
+        this.setState({status: 'New Status'})
     }
   }
 
@@ -145,7 +166,8 @@ export class CardStuff extends React.Component {
   render() {
     const users = this.state
     const user = this.state
-    // console.log('user', this.state.user?.firstName)
+    // console.log('category', this.state.category)
+
     return (
         <tr className={"searchPage__stuff__table__body"}>
           <td>
@@ -158,7 +180,7 @@ export class CardStuff extends React.Component {
             {this.props.stuff.price}
           </td>
           <td>
-            {this.props.stuff.category}
+            {this.state.category}
           </td>
           <td>
             {this.props.stuff.status}
