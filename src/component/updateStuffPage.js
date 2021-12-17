@@ -39,9 +39,6 @@ export default class UpdateStuffPage extends React.Component {
     this.setState({id: stuff.stuff?._id})
     this.setState({stuffToUpdate: stuff.stuff.stuff[0]})
     const ownerIdResults = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), {params})
-    console.log('results', ownerIdResults.stuff.stuff)
-    //this.setState({allUsers: ownerIdResults.stuff.stuff})
-
 
     ownerIdResults.stuff.stuff.filter(user => user.ownerId).map(async _user => {
       const {user} = await UserApiClient.getUser(_user.ownerId, JSON.parse(localStorage.getItem('jwt')))
@@ -53,25 +50,7 @@ export default class UpdateStuffPage extends React.Component {
       })
     })
 
-
-    // const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
-    // this.setState({allUsers: allUsers.users})
-    // console.log('allUsers', allUsers)
-    // console.log('stuff', typeof stuff)
-    // this.setState({stuff : stuff.stuff.stuff[0]})
-    // this.setState({ownerId: stuff.stuff.stuff[0]})
-    // console.log('ownerId', ownerId)
-    // const user= await UserApiClient.getUser(this.props.stuff, JSON.parse(localStorage.getItem('jwt')))
-    // console.log(user, 'USERRRRRRRRS')
-    // console.log("this.props.allStuff.stuff.ownerId", this.props.allStuff.stuff.stuff[0].ownerId)
-    // console.log(stuff)
   }
-
-  // async _updateStuffChange(event) {
-  //   await this.setState({
-  //     [event.target.name]: event.target.value
-  //   })
-  // }
 
   async _updateStuffChange (event) {
     if (this.state.stuffToUpdate !== event.target.value) {
@@ -119,7 +98,6 @@ export default class UpdateStuffPage extends React.Component {
     try {
       const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), id, body)
       this.setState({updateSuccess: true})
-        // console.log('updateResults', updateResults)
         if(updateResults) {
           this.setState({updateSuccess: true, selectedUserIndex: event.target.options.selectedIndex})
         }
@@ -169,7 +147,7 @@ export default class UpdateStuffPage extends React.Component {
                         </div>
                         <div className={"updateStuff__form__container__input"}>
                           <label className={"updateStuff__form__label__title"}
-                                 htmlFor={"updateTitle"}>Title
+                            htmlFor={"updateTitle"}>title
                           </label>
                           <input
                               className={"updateStuff__form__input__title"}
@@ -177,7 +155,7 @@ export default class UpdateStuffPage extends React.Component {
                               type="text"
                               placeholder={"Enter the title"}
                               value={this.state.stuffToUpdate.title}
-                              // onChange={(event) => this._submitUpdate(event)}
+                              onChange={(event) => this._updateStuffChange(event)}
                           />
                         </div>
                         <div className={"updateStuff__form__container__input"}>

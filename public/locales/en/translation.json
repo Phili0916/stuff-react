@@ -1,0 +1,43 @@
+{
+  "home": {
+    "welcome": "Welcome to Factoryz"
+  },
+  "navbar": {
+    "home": "Welcome",
+    "add": "Add Stuff",
+    "user": "User Page"
+  },
+  "searchPage": {
+    "search": "Search",
+    "titleSearch": "Search by Title",
+    "citySearch": "Search by City",
+    "searchCategory": {
+      "category": "Category",
+      "miscellaneous": "Miscellaneous",
+      "mouse": "Mouse",
+      "monitor": "Monitor",
+      "screen": "Screen",
+      "keyboard": "Keyboard",
+      "laptop": "Laptop",
+      "desktop": "Desktop",
+      "headphones": "Headphones",
+      "microphone": "Microphone",
+      "speakerphones": "Speakerphones",
+      "mobile": "Mobile",
+      "tablets": "Tablets"
+    },
+    "searchCriteria": {
+      "notFound": "No Stuff Found",
+      "id": "Id",
+      "title": "Title",
+      "price": "Price",
+      "status": "Status",
+      "category": "Category",
+      "description": "Description",
+      "city": "City",
+      "show": "Show",
+      "update": "Update",
+      "delete": "Delete"
+    }
+  }
+}

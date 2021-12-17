@@ -10,8 +10,10 @@ import {
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET
 } from "../helper/constants";
 import UserApiClient from "../service/user.api.client";
+import PropTypes from "prop-types";
+import {withTranslation} from 'react-i18next'
 
-export default class SearchPage extends React.Component {
+export class SearchPage extends React.Component {
   constructor(props) {
     super(props)
 
@@ -20,15 +22,27 @@ export default class SearchPage extends React.Component {
       citySearch: '',
       categorySearch: undefined,
       allStuff: undefined,
-      allUsers: []
+      allUsers: [],
+      error: false
+    }
+  }
+
+  static get PropTypes() {
+    return{
+      t: PropTypes.func //with Translation
     }
   }
 
   async componentDidMount() {
-    const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
-    const params = {status: "1,2"}
-    this.setState({allUsers: allUsers})
-    await this._submitSearch(params)
+    try {
+      const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
+      const params = {status: "1,2"}
+      this.setState({allUsers: allUsers})
+      await this._submitSearch(params)
+    } catch (error) {
+      console.error(error)
+      this.setState({error: true})
+    }
   }
 
 
@@ -51,7 +65,9 @@ export default class SearchPage extends React.Component {
     if (results.stuff.stuff?.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
-      await this.setState({allStuff: undefined})
+      await this.setState((prevState)=>{
+        prevState.allStuff = undefined
+      })
     }
   }
 
@@ -59,23 +75,8 @@ export default class SearchPage extends React.Component {
     await this.setState({
       [event.target.name]: event.target.value
     })
-    // console.log('event', event)
-    // console.log('this.state.categorySearch', this.state.categorySearch)
-    // console.log('citySearch', this.state.citySearch)
   }
 
-
-  // searchCityChange(event) {
-  //   const city = event.target.value
-  //   this.setState({citySearch: city})
-  //   console.log('citySearch', city)
-  // }
-  //
-  // searchCategoryChange(event) {
-  //   const category = event.target.value
-  //   this.setState({categorySearch: category})
-  //   console.log('categorySearch', category)
-  // }
 
   async _submit(event) {
     event.preventDefault()
@@ -83,10 +84,7 @@ export default class SearchPage extends React.Component {
   }
 
   render() {
-    // console.log('this.state.allStuff')
-    // console.log(this.state.allStuff)
-    // console.log('titleSearch', this.state.titleSearch)
-    // console.log("citySearch", this.state.citySearch)
+
     const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
@@ -99,7 +97,7 @@ export default class SearchPage extends React.Component {
                     className={"form__input__textBox"}
                     type="text"
                     name="titleSearch"
-                    placeholder={"search by title"}
+                    placeholder={this.props.t('searchPage.titleSearch')}
                     value={titleSearch}
                     onChange={(event) => this.searchChange(event)}
                 />
@@ -109,7 +107,7 @@ export default class SearchPage extends React.Component {
                     className={"form__input__textBox"}
                     type="text"
                     name="citySearch"
-                    placeholder={"search by city"}
+                    placeholder={this.props.t('searchPage.citySearch')}
                     value={citySearch}
                     onChange={(event) => this.searchChange(event)}
                 />
@@ -117,50 +115,49 @@ export default class SearchPage extends React.Component {
               <div className={"form__input"}>
                 <select className={"form__category__select"} name="categorySearch" value={categorySearch}
                         onChange={(event) => this.searchChange(event)}>
-                  <option value={undefined} selected={true}>--Category--</option>
-                  <option value={CATEGORY_MISCELLANEOUS}>Miscellaneous</option>
-                  <option value={CATEGORY_MOUSE}>Mouse</option>
-                  <option value={CATEGORY_MONITOR}>Monitor</option>
-                  <option value={CATEGORY_SCREEN}>Screen</option>
-                  <option value={CATEGORY_KEYBOARD}>Keyboard</option>
-                  <option value={CATEGORY_LAPTOP}>Laptop</option>
-                  <option value={CATEGORY_DESKTOP}>Desktop</option>
-                  <option value={CATEGORY_HEADPHONE}>Headphones</option>
-                  <option value={CATEGORY_MICROPHONE}>Microphone</option>
-                  <option value={CATEGORY_SPEAKERPHONE}>Speakerphones</option>
-                  <option value={CATEGORY_MOBILE}>Mobile</option>
-                  <option value={CATEGORY_TABLET}>Tablets</option>
+                  <option value={undefined} selected={true}>--{this.props.t('searchPage.searchCategory.category')}--</option>
+                  <option value={CATEGORY_MISCELLANEOUS}>{this.props.t('searchPage.searchCategory.miscellaneous')}</option>
+                  <option value={CATEGORY_MOUSE}>{this.props.t('searchPage.searchCategory.mouse')}</option>
+                  <option value={CATEGORY_MONITOR}>{this.props.t('searchPage.searchCategory.monitor')}</option>
+                  <option value={CATEGORY_SCREEN}>{this.props.t('searchPage.searchCategory.screen')}</option>
+                  <option value={CATEGORY_KEYBOARD}>{this.props.t('searchPage.searchCategory.keyboard')}</option>
+                  <option value={CATEGORY_LAPTOP}>{this.props.t('searchPage.searchCategory.laptop')}</option>
+                  <option value={CATEGORY_DESKTOP}>{this.props.t('searchPage.searchCategory.desktop')}</option>
+                  <option value={CATEGORY_HEADPHONE}>{this.props.t('searchPage.searchCategory.headphones')}</option>
+                  <option value={CATEGORY_MICROPHONE}>{this.props.t('searchPage.searchCategory.microphone')}</option>
+                  <option value={CATEGORY_SPEAKERPHONE}>{this.props.t('searchPage.searchCategory.speakerphones')}</option>
+                  <option value={CATEGORY_MOBILE}>{this.props.t('searchPage.searchCategory.mobile')}</option>
+                  <option value={CATEGORY_TABLET}>{this.props.t('searchPage.searchCategory.tablets')}</option>
                 </select>
               </div>
               {/*SEARCH BUTTON*/}
               <button className={"search__Form__button"}
                       onClick={(event) =>
-                          this._submit(event)}>Search
+                          this._submit(event)}>{this.props.t('searchPage.search')}
               </button>
             </form>
           </div>
           {this.state.allStuff === undefined
               ? (<div className={"stuff_home"}>
 
-                <p>No stuff found</p>
+                <div>{this.props.t('searchPage.searchCriteria.notFound')}</div>
               </div>)
               : (
-
 
                   <div className={'searchPage__stuff__table__container'}>
                     <div>Number of stuff : {this.state.allStuff.length}</div>
                     <table className={'searchPage__stuff__table'}>
                       <thead className={"searchPage__stuff__table__head"}>
-                      <th>Id</th>
-                      <th>Title</th>
-                      <th>Price</th>
-                      <th>Category</th>
-                      <th>Status</th>
-                      <th>Description</th>
-                      <th>City</th>
-                      <th>Update</th>
-                      <th>Show</th>
-                      <th>Delete</th>
+                      <th>{this.props.t('searchPage.searchCriteria.id')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.title')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.price')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.category')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.status')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.description')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.city')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.update')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.show')}</th>
+                      <th>{this.props.t('searchPage.searchCriteria.delete')}</th>
 
                       </thead>
                       {
@@ -169,8 +166,8 @@ export default class SearchPage extends React.Component {
                         return (
                             <CardStuff
                                 stuff={oneOfMyStuff}
-
                                 onDeleteItem={()=>this._submitSearch({status:"1,2"})}
+                                users = {this.state.allUsers}
                             />
                         )
                       })}
@@ -182,3 +179,5 @@ export default class SearchPage extends React.Component {
     )
   }
 }
+
+export default withTranslation()(SearchPage)

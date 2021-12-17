@@ -1,12 +1,10 @@
 import React from 'react'
-import PropTypes, {object} from 'prop-types'
 import {
   BrowserRouter,
   Route,
   Switch
 } from "react-router-dom";
 // import {updateOneStuff} from "../../../device/Controllers/stuff_controller";
-import {withRouter} from "react-router-dom";
 import {
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
   CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
@@ -18,6 +16,9 @@ import {
 
 import StuffApiClient from "../service/stuff.api.client";
 import UserApiClient from "../service/user.api.client";
+import PropTypes from "prop-types";
+import {withTranslation} from 'react-i18next'
+import withRouter from "../helper/withRouter";
 
 
 export class CardStuff extends React.Component {
@@ -30,34 +31,28 @@ export class CardStuff extends React.Component {
       confirmDelete: false,
       showDeleteButton: true,
       notDelete: false,
-      users: {}
     }
     // console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
-    console.log('category', this.props.stuff.category)
+    console.log('allUsers', this.props.users)
   }
 
 
   static get propTypes() {
     return {
       stuff: PropTypes.object,
-      onDeleteItem : PropTypes.func
+      onDeleteItem: PropTypes.func,
+      history: PropTypes.object, // withRouter.js
     }
   }
 
 
   async componentDidMount() {
-    const user= await UserApiClient.getUser(this.props.stuff.ownerId, JSON.parse(localStorage.getItem('jwt')))
-    // console.log(user, 'USERRRRRRRRS')
+    const user = await UserApiClient.getUser(this.props.stuff.ownerId, JSON.parse(localStorage.getItem('jwt')))
     this.setState({user: user.user})
 
-    // this.setState({category: this.props.category})
-    // console.log('category', this.state.category)
-    // console.log('typeof', typeof parseInt(this.props.stuff.category))
     switch (parseInt(this.props.stuff.category)) {
       case CATEGORY_MISCELLANEOUS :
         this.setState({category: 'Divers'})
-        // console.log("##thisCard");
-        // console.log(this)
         break
       case CATEGORY_MOUSE :
         this.setState({category: 'Mouse'})
@@ -95,7 +90,6 @@ export class CardStuff extends React.Component {
       default :
         this.setState({category: 'other'})
     }
-    // console.log('this.props.stuff.status', typeof this.props.stuff.status)
     switch (parseInt(this.props.stuff.status)) {
       case STATUS_NEW  :
         this.setState({status: 'New Status'})
@@ -114,37 +108,34 @@ export class CardStuff extends React.Component {
     }
   }
 
-  // async _getUser(event) {
-  //   const allUsers = await UserApiClient.getAllUsers(JSON.parse(localStorage.getItem('jwt')))
-  //   this.setState({users: allUsers.users})
-  //   this.state.users.map(user => {
-  //     user = {user}
-  //     console.log('user', user)
-  //     return user
-  //   })
-  // }
-
   _navigate(destination) {
     this.props.history.push(destination)
     const stuff = this.props.stuff
     return stuff
   }
 
-
+  // async _deleteStuff() {
+  //   this.setState({showDeleteButton: false})
+  //   this.setState({confirmDelete: true})
+  //   this.setState({notDelete: true})
+  // }
   async _deleteStuff() {
-    this.setState({showDeleteButton: false})
-    this.setState({confirmDelete: true})
-    this.setState({notDelete: true})
+    this.setState((prevState) => {
+      prevState.showDeleteButton = false
+      prevState.confirmDelete = true
+      prevState.notDelete = true
+      return prevState
+    })
   }
 
 
   async _confirmDelete(id) {
-    await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')),id)
+    await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')), id)
     this.setState({confirmDelete: true})
     this.setState({notDelete: true})
     await this._deleteStuff()
     this.props.onDeleteItem()
-    this.setState((prevState)=> {
+    this.setState((prevState) => {
       prevState.confirmDelete = false
       prevState.notDelete = false
       prevState.showDeleteButton = true
@@ -155,7 +146,7 @@ export class CardStuff extends React.Component {
   async _confirmDeleteResponse() {
     await this._deleteStuff()
     this.props.onDeleteItem()
-    this.setState((prevState)=> {
+    this.setState((prevState) => {
       prevState.confirmDelete = false
       prevState.notDelete = false
       prevState.showDeleteButton = true
@@ -164,9 +155,6 @@ export class CardStuff extends React.Component {
   }
 
   render() {
-    const users = this.state
-    const user = this.state
-    // console.log('category', this.state.category)
 
     return (
         <tr className={"searchPage__stuff__table__body"}>
@@ -189,54 +177,42 @@ export class CardStuff extends React.Component {
             {this.props.stuff.description}
           </td>
           <td>
-            {this.props.stuff.localisation?.city ? this.props.stuff.localisation?.city: 'MIAMI'}
+            {this.props.stuff.localisation?.city ? this.props.stuff.localisation?.city : 'MIAMI'}
           </td>
           <td>
-              <BrowserRouter>
-                <button
-                    type={"submit"}
-                    onClick={() => this._navigate("/updateStuff/" + this.props.stuff._id)}
-                    // render={(props) => <UpdateStuffPage {...props} stuff={this.props.stuff}/>}
-                >
-                  Update
-                </button>
-              </BrowserRouter>
+            <button
+                type={"submit"}
+                onClick={() => this._navigate("/updateStuff/" + this.props.stuff._id)}
+            >
+              Update
+            </button>
           </td>
           <td>show</td>
           <td>
             <>
               {this.state.showDeleteButton ?
-              <button
-                  type={"submit"}
-                  onClick={(event) =>
-                      this._deleteStuff(this._deleteStuff)}>Delete
-              </button> : null }
+                  <button
+                      type={"submit"}
+                      onClick={(event) =>
+                          this._deleteStuff(this._deleteStuff)}>Delete
+                  </button> : null}
               {this.state.confirmDelete ?
                   <div className={"searchPage__stuff__table__confirmDelete__container"}>
-                      <button
-                          type={"submit"}
-                          onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm
-                      </button>
-                      <p>Are you sure you want to delete?</p>
-                      <button
-                          type={"submit"}
-                          onClick={()=> this._confirmDeleteResponse(this._confirmDeleteResponse)}>No
-                      </button>
+                    <button
+                        type={"submit"}
+                        onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm
+                    </button>
+                    <p>Are you sure you want to delete?</p>
+                    <button
+                        type={"submit"}
+                        onClick={() => this._confirmDeleteResponse(this._confirmDeleteResponse)}>No
+                    </button>
                   </div> : null}
             </>
-
           </td>
-          {/*<td>*/}
-          {/*  <>*/}
-          {/*    <DeleteStuffPage*/}
-          {/*    stuff={this.props.stuff}/>*/}
-          {/*  </>*/}
-
-
-          {/*</td>*/}
         </tr>
     )
   }
 }
 
-export default withRouter(CardStuff)
+export default withRouter(withTranslation()(CardStuff))

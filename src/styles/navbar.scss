@@ -11,7 +11,7 @@ nav {
   width: 100vw;
 }
 
-.logo {
+.nav-logo {
   display: flex;
   color: #5e5e5e;
 }
@@ -25,20 +25,20 @@ nav {
   align-items: center;
 }
 
-.link {
+.nav-link {
   color: blue;
   cursor: pointer;
 }
 
-.link:hover {
+.nav-link:hover {
   color: pink;
 }
 
-.home_buttons {
+.nav_home_buttons {
   display: flex;
 }
 
-.home_logout_button {
+.nav_home_logout_button {
   align-items: center;
   border: whitesmoke solid 1px;
   border-radius: 12px;
@@ -50,6 +50,6 @@ nav {
   text-transform: uppercase;
 }
 
-.home_logout_button:hover {
+.nav_home_logout_button:hover {
   color:pink;
 }
