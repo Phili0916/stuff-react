@@ -2,10 +2,50 @@
   "home": {
     "welcome": "Welcome to Factoryz"
   },
+  "card-stuff": {
+    "delete": "Delete"
+  },
+  "create_user": {
+    "title": "Would you like to Register?",
+    "placeholder": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Create Password"
+    },
+    "button": {
+      "register": "Register"
+    },
+    "register_form": {
+      "message": {
+        "success": "You have Registered Successfully"
+      }
+    }
+  },
+  "login_page": {
+    "title": "Sign in to Find your Stuff",
+    "placeholder": {
+      "name": "Create User Name",
+      "password": "Enter Password"
+    },
+    "form": {
+      "error": {
+        "password" : "Password is not correct",
+        "user": "Create User Name is not valid",
+        "password_user": "Your User Name and Password are not Valid"
+      }
+    }
+  },
+  "delete_page": {
+    "button": {
+      "delete": "Delete"
+    }
+  },
   "navbar": {
     "home": "Welcome",
     "add": "Add Stuff",
-    "user": "User Page"
+    "user": "User Page",
+    "logout": "Logout"
   },
   "searchPage": {
     "search": "Search",
@@ -39,5 +79,21 @@
       "update": "Update",
       "delete": "Delete"
     }
-  }
+  },
+ "updatePage": {
+   "placeholder": {
+     "title": "Title",
+     "price": "Enter a Price for your Stuff",
+     "status": "Enter the Status of your Stuff",
+     "description": "Enter the Stuff's Description",
+     "city": "Enter a City"
+   },
+   "button": {
+     "update": "Update"
+   },
+   "update_form": {
+     "success": "You have Updated Your Stuff",
+     "error": "Your Stuff did not Update"
+   }
+ }
 }

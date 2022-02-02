@@ -31,8 +31,8 @@ class StuffApiClient {
         'authorization': jwt
       }
     })
-    // console.log("####response in stuff request")
-    // console.log(response)
+    console.log("####response in stuff request")
+    console.log(response)
     // const something = await response.json()
     // console.log("###something");
     // console.log(something)
@@ -82,12 +82,14 @@ class StuffApiClient {
         'Content-Type': 'application/json',
         'authorization': jwt
       },
-
       body: JSON.stringify(body)
     })
+    console.log('update', updateStuffResponse)
+
     if(!updateStuffResponse.ok) {
       throw await updateStuffResponse.json()
     }
+
     return await updateStuffResponse.json()
   }
 

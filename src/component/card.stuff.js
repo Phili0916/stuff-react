@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  BrowserRouter,
-  Route,
-  Switch
-} from "react-router-dom";
-// import {updateOneStuff} from "../../../device/Controllers/stuff_controller";
+
 import {
   CATEGORY_DESKTOP, CATEGORY_HEADPHONE,
   CATEGORY_KEYBOARD, CATEGORY_LAPTOP, CATEGORY_MICROPHONE,
@@ -32,8 +27,7 @@ export class CardStuff extends React.Component {
       showDeleteButton: true,
       notDelete: false,
     }
-    // console.log('this.props.stuff.localisation', this.props.stuff.localisation?.city)
-    console.log('allUsers', this.props.users)
+
   }
 
 
@@ -42,6 +36,7 @@ export class CardStuff extends React.Component {
       stuff: PropTypes.object,
       onDeleteItem: PropTypes.func,
       history: PropTypes.object, // withRouter.js
+      t: PropTypes.func //with Translation
     }
   }
 
@@ -109,16 +104,11 @@ export class CardStuff extends React.Component {
   }
 
   _navigate(destination) {
-    this.props.history.push(destination)
+    this.props.navigate(destination)
     const stuff = this.props.stuff
     return stuff
   }
 
-  // async _deleteStuff() {
-  //   this.setState({showDeleteButton: false})
-  //   this.setState({confirmDelete: true})
-  //   this.setState({notDelete: true})
-  // }
   async _deleteStuff() {
     this.setState((prevState) => {
       prevState.showDeleteButton = false
@@ -127,7 +117,6 @@ export class CardStuff extends React.Component {
       return prevState
     })
   }
-
 
   async _confirmDelete(id) {
     await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')), id)
@@ -155,7 +144,6 @@ export class CardStuff extends React.Component {
   }
 
   render() {
-
     return (
         <tr className={"searchPage__stuff__table__body"}>
           <td>
@@ -194,10 +182,11 @@ export class CardStuff extends React.Component {
                   <button
                       type={"submit"}
                       onClick={(event) =>
-                          this._deleteStuff(this._deleteStuff)}>Delete
+                          this._deleteStuff(this._deleteStuff)}>
+                      {this.props.t("card-stuff.delete")}
                   </button> : null}
               {this.state.confirmDelete ?
-                  <div className={"searchPage__stuff__table__confirmDelete__container"}>
+                  <div className={"card__stuff__table__confirmDelete__container"}>
                     <button
                         type={"submit"}
                         onClick={() => this._confirmDelete(this.props.stuff._id)}>confirm

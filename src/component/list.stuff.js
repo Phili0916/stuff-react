@@ -1,7 +1,6 @@
 import React from 'react'
 import StuffApiClient from "../service/stuff.api.client";
 import CardStuff from "./card.stuff";
-import UpdateStuffPage from "./updateStuffPage";
 
 export default class ListStuff extends React.Component {
 

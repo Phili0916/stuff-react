@@ -1,20 +1,20 @@
 
-.form__container {
+.searchPage__form--container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.form__block {
+.searchPage__form--block {
     max-width: 800px;
 }
 
-.form__title {
+.searchPage__form--title {
     font-size: 2em;
 }
 
-.form__input {
+.searchPage__form__input {
     display: flex;
     justify-content: center;
     margin-top: 5px;
@@ -23,16 +23,16 @@
     padding: 2.5px 10px;
 }
 
-.form__input__textBox {
+.searchPage__form__input--textBox {
     padding: 2.5px 10px;
 
 }
 
-form__category__select {
+searchPage__form--category--select {
     padding: 2.5px 10px;
 }
 
-.search__Form__button {
+.searchPage__search__form__button {
     display: flex;
     margin: 10px auto;
     text-transform: uppercase;
@@ -45,11 +45,8 @@ form__category__select {
     cursor: pointer;
 }
 
-.searchPage__stuff__table__container {
 
-}
-
-.searchPage__stuff__table {
+.searchPage__stuff__table--container {
     border-collapse: collapse;
     min-width: 40vw;
     width: auto;
@@ -57,7 +54,7 @@ form__category__select {
     border: 2px solid #191970;
 }
 
-.searchPage__stuff__table__head {
+.searchPage__stuff__table--head {
     background-color: #6495ed;
     color: #fff5ee;
     //text-align: left;
@@ -76,22 +73,8 @@ tr:nth-child(even) {
     background-color: #fffaf0;
 }
 
-.searchPage__stuff__table__confirmDelete__container {
-    background-color: #6495ed;
-    height: 25vh;
-    width: 25vw;
-    position: absolute;
-    border: 1px solid #191970;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-}
 
-.searchPage__stuff__table__confirmDelete__container, p {
+.card__stuff__table__confirmDelete__container, p {
     padding: 5px;
     color: #fffaf0;
     font-weight: bold;

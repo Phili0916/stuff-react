@@ -1,7 +1,9 @@
 import React from 'react'
 import UserApiClient from "../service/user.api.client";
+import PropTypes from "prop-types";
+import {withTranslation} from 'react-i18next'
 
-export default class Login extends React.Component {
+export class Login extends React.Component {
 
   constructor(props) {
     super(props)
@@ -12,6 +14,12 @@ export default class Login extends React.Component {
       badUser: false
     }
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  static get PropTypes() {
+    return{
+      t: PropTypes.func //with Translation
+    }
   }
 
   handleChange(event) {
@@ -26,52 +34,43 @@ export default class Login extends React.Component {
 
     const data = await UserApiClient.checkIfUsernameAndPasswordAreOK(this.state.username, this.state.password)
 
-    // console.log("###data")
-    // console.log(data);
-
-
     switch (data.message) {
       case 'ok':
         this.setState({badPassword: false})
         this.setState({badUser: false})
-        // console.log(this)
-        // TODO : get the user by its id
-          const {user} = await UserApiClient.getUser(data.userId, data.token)
-        // console.log('#####USER', user)
-        //   console.log("###data.userId")
-        // console.log(data.token);
 
-
+        const {user} = await UserApiClient.getUser(data.userId, data.token)
         this.props.onAuthenticationSuccess(data.userId, data.token, user)
         break
+
       case 'user not found':
         this.setState({badUser: true})
         this.setState({badPassword: false})
         break
+
       case 'bad password' :
         this.setState({badPassword: true})
         break
+
       default:
         break;
     }
   }
   render() {
-    // console.log(this.state)
     return (
         <div className={"login"}>
-          <h1>React Form</h1>
+          <h1>{this.props.t("login_page.title")}</h1>
           <form
               className={"login__username"}
               onSubmit={(event) =>
                   this._submit(event)}
-              // action={"zer"}
           >
             <label className="login__label">
               <input className={"login__username__input"}
                      type="text"
                      name="username"
                      value={this.state.username}
-                     placeholder="CreateUser Name"
+                     placeholder={this.props.t("login_page.placeholder.name")}
                      onChange={this.handleChange}
               />
             </label>
@@ -80,7 +79,7 @@ export default class Login extends React.Component {
                      type={"text"}
                      name="password"
                      value={this.state.password}
-                     placeholder="Enter Password"
+                     placeholder={this.props.t("login_page.placeholder.password")}
                      onChange={this.handleChange}
               />
             </label>
@@ -90,19 +89,18 @@ export default class Login extends React.Component {
           </form>
 
           {this.state.badPassword === true
-              ? (<div className={"login__errorForm"}>Password is not correct</div>)
+              ? (<div className={"login__errorForm"}>{this.props.t("login_page.form.error.password")}</div>)
               : null}
           {this.state.badUser === true
-              ? (<div className={"login__errorForm"}>CreateUser Name is not valid</div>)
+              ? (<div className={"login__errorForm"}>{this.props.t("login_page.form.error.user")}</div>)
               : null}
-
         </div>
     )
   }
 
 }
 
-
+export default (withTranslation()(Login))
 
 
 

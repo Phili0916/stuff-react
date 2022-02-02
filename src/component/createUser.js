@@ -1,7 +1,10 @@
 import React from 'react'
 import UserApiClient from "../service/user.api.client";
+import PropTypes from "prop-types";
+import {withTranslation} from 'react-i18next'
+import {SearchPage} from "./searchPage";
 
-export default class CreateUser extends React.Component {
+export class CreateUser extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,12 +17,17 @@ export default class CreateUser extends React.Component {
     }
   }
 
+  static get PropTypes() {
+    return{
+      t: PropTypes.func //with Translation
+    }
+  }
+
   async _submitCreatedUser() {
     const body = {}
 
     if(this.state.addFirstName !== undefined) {
       body.firstName = this.state.addFirstName
-      console.log('body first name', body)
     }
     if(this.state.addLastName !== undefined) {
       body.lastName = this.state.addLastName
@@ -34,13 +42,10 @@ export default class CreateUser extends React.Component {
       const results = await UserApiClient.signup(body)
       console.log('submit createUser results', results)
       this.setState({createUserSuccess: true})
-      console.log('create user results', results.message)
-      console.log('this.state.createUserSuccess', this.state.createUserSuccess)
     } catch(e) {
       const error = e.errors
       console.log('error', error)
       this.setState({createUserError: true})
-      console.log('this.state.createUserError', this.state.createUserError)
     }
   }
 
@@ -48,7 +53,6 @@ export default class CreateUser extends React.Component {
     await this.setState ({
       [event.target.name] : event.target.value
     })
-    console.log('this.state.addFirstName', this.state.addFirstName)
   }
 
   async _submit(event) {
@@ -56,13 +60,6 @@ export default class CreateUser extends React.Component {
     await this._submitCreatedUser()
   }
 
-  // async componentDidMount() {
-  //   //TODO : get user from your database
-  //   const user= JSON.parse(localStorage.getItem('user'))
-  //   const userdata = await UserApiClient.getUser(user._id, JSON.parse(localStorage.getItem('jwt')))
-  //   console.log("###typeof userdata");
-  //   console.log(typeof 'userdata');
-  // }
   render() {
 
     const {addFirstName, addLastName, addEmail, addPassword} = this.state
@@ -70,7 +67,7 @@ export default class CreateUser extends React.Component {
     return (
         <div className={'user__form__container'}>
           <div className={'user__form__block'}>
-            <h2 className={'userRegistrationForm__title'}>Would you like to Register?</h2>
+            <h2 className={'userRegistrationForm__title'}>{this.props.t("create_user.title")}</h2>
           </div>
           <form>
             <div className={"user__form__input"}>
@@ -78,7 +75,7 @@ export default class CreateUser extends React.Component {
                   className={"user__form__input__textBox"}
                   type={"text"}
                   name={"addFirstName"}
-                  placeholder={"First Name"}
+                  placeholder={this.props.t("create_user.placeholder.first_name")}
                   value={addFirstName}
                   onChange={(event) => this.addUserChange(event)}
               />
@@ -91,7 +88,7 @@ export default class CreateUser extends React.Component {
                   className={"user__form__input__textBox"}
                   type={"text"}
                   name={"addLastName"}
-                  placeholder={"Last Name"}
+                  placeholder={this.props.t("create_user.placeholder.last_name")}
                   value={addLastName}
                   onChange={(event) => this.addUserChange(event)}
               />
@@ -104,7 +101,7 @@ export default class CreateUser extends React.Component {
                   className={"user__form__input__textBox"}
                   type={"email"}
                   name={"addEmail"}
-                  placeholder={"email"}
+                  placeholder={this.props.t("create_user.placeholder.email")}
                   value={addEmail}
                   onChange={(event) => this.addUserChange(event)}
               />
@@ -117,7 +114,7 @@ export default class CreateUser extends React.Component {
                 className={"user__form__input__textBox"}
                 type={"password"}
                 name={"addPassword"}
-                placeholder={"Create Password"}
+                placeholder={this.props.t("create_user.placeholder.password")}
                 value={addPassword}
                 onChange={(event) => this.addUserChange(event)}
               />
@@ -128,7 +125,7 @@ export default class CreateUser extends React.Component {
             <div className={"user__form__button"}>
               <button type={"submit"}
                       onClick={(event) =>
-                      this._submit(event)}>Register
+                      this._submit(event)}>{this.props.t("create_user.button.register")}
               </button>
             </div>
           </form>
@@ -139,7 +136,7 @@ export default class CreateUser extends React.Component {
               this.state.addEmail !== undefined &&
               this.state.addPassword !== undefined
               ? (<div className={"user__successForm"}>
-                  <h2>You have Registered Successfully {this.state.addFirstName} {this.state.addLastName}</h2>
+                  <h2>{this.props.t("create_user.register_form.success.message")} {this.state.addFirstName} {this.state.addLastName}</h2>
                 </div> )
               : null}
         </div>
@@ -147,3 +144,5 @@ export default class CreateUser extends React.Component {
   }
 
 }
+
+export default withTranslation()(CreateUser)

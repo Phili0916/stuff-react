@@ -18,9 +18,7 @@ export class Navbar extends React.Component {
   }
 
   _navigate(destination){
-    console.log(this.props)
     this.props.navigate(destination)
-    console.log('history', this.props.history)
   }
 
   async _logout(){
@@ -40,7 +38,7 @@ export class Navbar extends React.Component {
           </ul>
           <div className={"nav_home_buttons"} >
             <button className={"nav_home_logout_button"} onClick={(event)=>this._logout(event)}>
-              Logout
+              {this.props.t('navbar.logout')}
             </button>
           </div>
         </nav>

@@ -5,7 +5,7 @@
   background-position: center;
 }
 
-.main {
+.home-main {
   display: flex;
   max-width: 800px;
   height: 100vh;
@@ -14,14 +14,19 @@
   margin: 0 auto;
 }
 
-.main h1 {
-  margin-top: 10px;
-  margin-bottom: 50px;
-}
-
-.main h2 {
-  font-size: 30px;
+.home-title {
+  font-size: 3em;
   margin-bottom: 10px;
   margin-top: 30px;
+  font-weight: bolder;
 }
+
+.home-name {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  font-size: 2.5em;
+  font-weight: bolder;
+  text-transform: capitalize;
+}
+
 

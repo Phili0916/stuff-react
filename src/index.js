@@ -31,8 +31,6 @@ import i18n from "i18next";
 import {I18nextProvider, initReactI18next} from 'react-i18next'
 import HttpApi from 'i18next-http-backend'
 import fr from 'date-fns/locale/fr';
-import AppContext from "./context/app.context";
-import i18next from "i18next";
 
 
 /**Register Date PICKER **/
@@ -70,11 +68,6 @@ class App extends React.Component {
     }
   }
 
-  // async _getStuff( stuff) {
-  //   if (stuff) {
-  //     await this.setState({stuff: stuff})
-  //   }
-  // }
 
   async componentDidMount() {
     try {
@@ -106,13 +99,6 @@ class App extends React.Component {
     await this.setState({user: undefined})
   }
 
-  // async _getStuff() {
-  //   if (JSON.parse(localStorage.getItem('stuff'))) {
-  //     await this.setState({stuff: stuff})
-  //   }
-  // }
-
-
 
   render() {
     return (
@@ -139,10 +125,9 @@ class App extends React.Component {
                       <Route path="/user" exact={true} element={<CreateUser/>}/>
                       {/*<Route path="/deleteStuff" component={() => <DeleteStuffPage/>}/>*/}
 
-                      <Route path="/updateStuff"
+                      <Route path={"/updateStuff/:id"}
                              element={<UpdateStuffPage
-                             allStuff={this.state.stuff} />}/>
-                             {/*onChange={() => this._getStuff()}/>}/>*/}
+                             stuff={this.state.stuff} />}/>
                     </Routes>
                   </BrowserRouter>
 

@@ -1,8 +1,9 @@
 import React from "react";
 import StuffApiClient from "../service/stuff.api.client";
 import PropTypes from "prop-types";
+import {withTranslation} from 'react-i18next'
 
-export default class DeleteStuffPage extends React.Component {
+export class DeleteStuffPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +13,8 @@ export default class DeleteStuffPage extends React.Component {
 
   static get propTypes() {
     return {
-      stuff : PropTypes.object
+      stuff : PropTypes.object,
+      t: PropTypes.func //with Translation
     }
   }
 
@@ -20,31 +22,12 @@ export default class DeleteStuffPage extends React.Component {
 
     const deleteResults = await StuffApiClient.deleteStuffBy(JSON.parse(localStorage.getItem('jwt')), this.props.stuff._id)
 
-    console.log('typeof', typeof deleteResults)
-
-    console.log('deleteResults', deleteResults)
-
-
-    console.log('this.props.stuff', this.props.deleteStuff)
-
     const stuffAfterDelete = Object.entries(deleteResults).filter(deleteResult => deleteResult.props)
-
-    console.log('deleteResult', this.props._id)
 
     await this.setState({deleteResults: stuffAfterDelete})
 
-
-
-    // if(deleteResults.stuff.stuff.length > 1) {
-    //   await this.setState({allStuff: deleteResults.stuff.stuff})
-    // } else {
-    //   await this.setState({allStuff: undefined})
-    // }
   }
 
-  // async deleteChange(event) {
-  //   const stuffAfterDelete = allStuff
-  // }
 
   async _submit(event) {
     event.preventDefault()
@@ -57,9 +40,11 @@ render() {
           <button
             type={"submit"}
             onClick={(event) =>
-              this._submit(event)}>Delete
+              this._submit(event)}>{this.props.t("delete.page.button.delete")}
           </button>
         </div>
     )
 }
 }
+
+export default (withTranslation()(DeleteStuffPage))

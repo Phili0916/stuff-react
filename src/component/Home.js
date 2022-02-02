@@ -20,20 +20,19 @@ export class Home extends React.Component {
 
 
   render() {
-    //console.log(this.props.stuff.stuff, 'stuff')
     return (
         <div className={"home"}>
-          <main className={"main"}>
-            <h2>{this.props.t('home.welcome')}</h2>
+          <div className={"home-main"}>
+            <div className={"home-title"}>{this.props.t('home.welcome')}</div>
             {this.props.user && (
                 <>
-                  <h1>{this.props.user.firstName} {this.props.user.lastName}</h1>
+                  <div className={"home-name"}>{this.props.user.firstName} {this.props.user.lastName}</div>
                   <SearchPage
                     stuff={this.props.stuff.stuff}
                   />
                 </>
             )}
-          </main>
+          </div>
         </div>
     )
   }

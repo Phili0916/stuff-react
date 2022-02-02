@@ -10,8 +10,10 @@ import {
   CATEGORY_SCREEN, CATEGORY_SPEAKERPHONE, CATEGORY_TABLET, STATUS_BROKEN, STATUS_LOST, STATUS_NEW, STATUS_USED
 } from "../helper/constants";
 import UserApiClient from "../service/user.api.client";
+import {withTranslation} from 'react-i18next'
 
-export default class UpdateStuffPage extends React.Component {
+
+export class UpdateStuffPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +29,8 @@ export default class UpdateStuffPage extends React.Component {
 
   static get propTypes() {
     return {
-      stuff: PropTypes.object
+      stuff: PropTypes.object,
+      t: PropTypes.func //with Translation
     }
   }
 
@@ -76,25 +79,7 @@ export default class UpdateStuffPage extends React.Component {
     await this._updateStuffChange(event)
     const body = this.state.stuffToUpdate
     const id = this.state.stuffToUpdate._id
-    // const body = this.state.stuffToUpdate
-    // const id = this.state.stuffToUpdate._id
-    // console.log('id', id)
-    // console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
-    // if (this.state.stuffToUpdate !== event.target.value) {
-    //   if (event.target.name === 'city') {
-    //     if (!this.state.stuffToUpdate.localisation) {
-    //       this.setState(prevState => {
-    //         prevState.stuffToUpdate.localisation = {}
-    //         return prevState
-    //       })
-    //     }
-    //     this.state.stuffToUpdate.localisation.city = event.target.value
-    //     this.setState({updatedStuff: this.state.stuffToUpdate})
-    // } else {
-    //     this.state.stuffToUpdate[event.target.name] = event.target.value
-    //     this.setState({updatedStuff: this.state.stuffToUpdate})
-    //   }
-    // }
+
     try {
       const updateResults = await StuffApiClient.updateOneStuff(JSON.parse(localStorage.getItem('jwt')), id, body)
       this.setState({updateSuccess: true})
@@ -109,20 +94,6 @@ export default class UpdateStuffPage extends React.Component {
      }
 
   render() {
-    // console.log('selectedUserIndex', this.state.selectedUserIndex)
-  // console.log(this.state.allUsers)
-  // console.log('this.state.stuffToUpdate', this.state.stuffToUpdate)
-    // console.log('this.state.stuffToUpdate.description', this.state.stuffToUpdate)
-    // console.log('this.state.updatedStuff', this.state.updatedStuff)
-    // console.log('allusers', this.state.allUsers)
-    // const testObject = Object.entries(this.state.allUsers).map(user =>
-    //   user[1]
-    // )
-    // const testObject2 = Object.values(this.state.allUsers).map(user =>
-    //     user?.ownerId
-    // )
-    // console.log(testObject, testObject2)
-
 
     return (
         this.state.stuffToUpdate ?
@@ -153,7 +124,7 @@ export default class UpdateStuffPage extends React.Component {
                               className={"updateStuff__form__input__title"}
                               name={"title"}
                               type="text"
-                              placeholder={"Enter the title"}
+                              placeholder={this.props.t("updatePage.placeholder.title")}
                               value={this.state.stuffToUpdate.title}
                               onChange={(event) => this._updateStuffChange(event)}
                           />
@@ -166,7 +137,7 @@ export default class UpdateStuffPage extends React.Component {
                               className={"updateStuff__form__input__title"}
                               name={"price"}
                               type="text"
-                              placeholder={"Enter the Price"}
+                              placeholder={this.props.t("updatePage.placeholder.price")}
                               value={this.state.stuffToUpdate.price}
                               onChange={(event) => this._updateStuffChange(event)}
                           />
@@ -203,7 +174,7 @@ export default class UpdateStuffPage extends React.Component {
                           <select
                               className={"updateStuff__form__input__textBox"}
                               name={"status"}
-                              placeholder={"Enter the Status of your Stuff"}
+                              placeholder={this.props.t("updatePage.placeholder.status")}
                               value={this.state.stuffToUpdate.status}
                               onChange={(event) => this._updateStuffChange(event)}>
                             <option value={undefined} selected={true}>--Category--</option>
@@ -221,7 +192,7 @@ export default class UpdateStuffPage extends React.Component {
                               className={"updateStuff__form__input__textBox"}
                               name={"description"}
                               type="text"
-                              placeholder={"Enter the Stuff's Description"}
+                              placeholder={this.props.t("updatePage.placeholder.description")}
                               value={this.state.stuffToUpdate.description}
                               onChange={(event) => this._updateStuffChange(event)}
                           />
@@ -234,7 +205,7 @@ export default class UpdateStuffPage extends React.Component {
                               className={"updateStuff__form__input__textBox"}
                               name={"city"}
                               type="text"
-                              placeholder={"Enter a City"}
+                              placeholder={this.props.t("updatePage.placeholder.city")}
                               value={this.state.stuffToUpdate.localisation?.city}
                               onChange={(event) => this._updateStuffChange(event)}
                           />
@@ -243,13 +214,13 @@ export default class UpdateStuffPage extends React.Component {
                     </form>
                     <div className={"updateStuff__search__form__button"}>
                       <button onClick={(event) => this._submitUpdate(event)}>
-                        Update
+                        {this.props.t("updatePage.button.update")}
                       </button>
                     </div>
-                    {this.state.updateSuccess ? (<div className={"updateStuff__successForm"}>You have Updated Your Stuff</div>)
+                    {this.state.updateSuccess ? (<div className={"updateStuff__successForm"}>{this.props.t("updateStuff.update_form.success")}</div>)
                         :
                     this.state.updateError === true
-                        ? (<div className={"updateStuff__errorForm"}>Your Stuff did not Update</div>)
+                        ? (<div className={"updateStuff__errorForm"}>{this.props.t("updateStuff.update_form.error")}</div>)
                         : null }
                   </div>
                 </div>
@@ -260,4 +231,6 @@ export default class UpdateStuffPage extends React.Component {
     )
   }
 }
+
+export default (withTranslation() (UpdateStuffPage))
 

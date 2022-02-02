@@ -59,9 +59,7 @@ export class SearchPage extends React.Component {
       params.category = this.state.categorySearch
     }
 
-
     const results = await StuffApiClient.getStuffBy(JSON.parse(localStorage.getItem('jwt')), params)
-    // console.log('results', results)
     if (results.stuff.stuff?.length >= 1) {
       await this.setState({allStuff: results.stuff.stuff})
     } else {
@@ -88,13 +86,13 @@ export class SearchPage extends React.Component {
     const {titleSearch, citySearch, categorySearch} = this.state
 
     return (
-        <div className={"form__container"}>
-          <div className={"form__block"}>
-            <h2 className={"form__title"}>Search for your Stuff</h2>
+        <div className={"searchPage__form--container"}>
+          <div className={"searchPage__form--block"}>
+            <h2 className={"searchPage__form--title"}>Search for your Stuff</h2>
             <form>
-              <div className={"form__input"}>
+              <div className={"searchPage__form__input"}>
                 <input
-                    className={"form__input__textBox"}
+                    className={"searchPage__form__input--textBox"}
                     type="text"
                     name="titleSearch"
                     placeholder={this.props.t('searchPage.titleSearch')}
@@ -102,9 +100,9 @@ export class SearchPage extends React.Component {
                     onChange={(event) => this.searchChange(event)}
                 />
               </div>
-              <div className={"form__input"}>
+              <div className={"searchPage__form__input"}>
                 <input
-                    className={"form__input__textBox"}
+                    className={"searchPage__form__input--textBox"}
                     type="text"
                     name="citySearch"
                     placeholder={this.props.t('searchPage.citySearch')}
@@ -112,8 +110,8 @@ export class SearchPage extends React.Component {
                     onChange={(event) => this.searchChange(event)}
                 />
               </div>
-              <div className={"form__input"}>
-                <select className={"form__category__select"} name="categorySearch" value={categorySearch}
+              <div className={"searchPage__form__input"}>
+                <select className={"searchPage__form--category--select"} name="categorySearch" value={categorySearch}
                         onChange={(event) => this.searchChange(event)}>
                   <option value={undefined} selected={true}>--{this.props.t('searchPage.searchCategory.category')}--</option>
                   <option value={CATEGORY_MISCELLANEOUS}>{this.props.t('searchPage.searchCategory.miscellaneous')}</option>
@@ -131,7 +129,7 @@ export class SearchPage extends React.Component {
                 </select>
               </div>
               {/*SEARCH BUTTON*/}
-              <button className={"search__Form__button"}
+              <button className={"searchPage__search__form__button"}
                       onClick={(event) =>
                           this._submit(event)}>{this.props.t('searchPage.search')}
               </button>
@@ -144,10 +142,10 @@ export class SearchPage extends React.Component {
               </div>)
               : (
 
-                  <div className={'searchPage__stuff__table__container'}>
+                  <div className={'searchPage__stuff__table'}>
                     <div>Number of stuff : {this.state.allStuff.length}</div>
-                    <table className={'searchPage__stuff__table'}>
-                      <thead className={"searchPage__stuff__table__head"}>
+                    <table className={'searchPage__stuff__table--container'}>
+                      <thead className={"searchPage__stuff__table--head"}>
                       <th>{this.props.t('searchPage.searchCriteria.id')}</th>
                       <th>{this.props.t('searchPage.searchCriteria.title')}</th>
                       <th>{this.props.t('searchPage.searchCriteria.price')}</th>
